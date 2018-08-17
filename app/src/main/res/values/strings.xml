@@ -7,5 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="name">ณัฐพงษ์ พัลวัล</string>
-    <string name="email">nattapong_pallawal@hotmail.com</string>
+    <string name="email">อีเมลล์</string>
+    <string name="emailValue">nattapong_pallawal@hotmail.com</string>
+    <string name="forgotPassword">กรุณาป้อนอีเมลล์ของคุณ\nเพื่อทำการรีเซ็ตรหัสผ่าน</string>
+    <string name="next">ถัดไป</string>
+    <string name="phoneNumber">หมายเลขโทรศัพท์</string>
 </resources>
