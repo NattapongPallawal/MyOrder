@@ -11,7 +11,7 @@ import com.example.natta.myorder.data.Order
 import kotlinx.android.synthetic.main.list_order_history.view.*
 
 class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryHolder>() {
-    private var orderList: List<Order>? = null
+    private var orderList= listOf<Order>()
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OrderHistoryHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_order_history, p0, false)
         return OrderHistoryHolder(view)
@@ -19,15 +19,15 @@ class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHist
     }
 
     override fun getItemCount(): Int {
-        return if (orderList != null) orderList!!.size else 0
+        return orderList.size
     }
 
     override fun onBindViewHolder(p0: OrderHistoryHolder, p1: Int) {
-        p0.resName.text = orderList!![p1].restaurantID.toString()
+        p0.resName.text = orderList[p1].restaurantID.toString()
         p0.amountMenu.text = "5"
-        p0.date.text = orderList!![p1].date.toString()
-        p0.price.text = orderList!![p1].total.toString()
-        p0.orderID.text = orderList!![p1].orderNumber.toString()
+        p0.date.text = orderList[p1].date.toString()
+        p0.price.text = orderList[p1].total.toString()
+        p0.orderID.text = orderList[p1].orderNumber.toString()
 
     }
 

@@ -9,7 +9,7 @@ import com.example.natta.myorder.repository.RTDBRepository
 class OrderHistoryViewModel : ViewModel() {
     private var mRTDBRepository = RTDBRepository()
     private var mCustomer = MutableLiveData<Customer>()
-    private var mOrder: MutableLiveData<List<Order>>? = null
+    private var mOrder = MutableLiveData<List<Order>>()
 //    fun getCustomer(): MutableLiveData<Customer> {
 //        var mAuth = FirebaseAuth.getInstance()
 //        mCustomer = mRTDBRepository.getCustomer("cus-test1")
@@ -18,6 +18,6 @@ class OrderHistoryViewModel : ViewModel() {
 
     fun getOrder(): MutableLiveData<List<Order>> {
         mOrder = mRTDBRepository.getOrderHistory()
-        return mOrder as MutableLiveData<List<Order>>
+        return mOrder
     }
 }

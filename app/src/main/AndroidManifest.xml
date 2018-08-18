@@ -3,6 +3,9 @@
     package="com.example.natta.myorder">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:name=".data.FireBaseOffline"
@@ -15,8 +18,8 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".view.orderhistory.OrderHistoryActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.orderhistory.OrderHistoryActivity" />
         <activity
             android:name=".view.login.LoginActivity"
             android:theme="@style/NoActionBar">
@@ -28,14 +31,15 @@
         </activity>
         <activity
             android:name=".view.forgotpassword.ForgotPasswordActivity"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.register.Register1Activity"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.register.Register2Activity"
-            android:theme="@style/NoActionBar"></activity>
-        <activity android:name=".MyProfileActivity"></activity>
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".view.MyProfileActivity" />
+        <activity android:name=".view.restaurant.RestaurantActivity"></activity>
     </application>
 
 </manifest>

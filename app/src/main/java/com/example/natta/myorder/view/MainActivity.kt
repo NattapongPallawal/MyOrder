@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.natta.myorder.R
+import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.example.natta.myorder.view.login.LoginActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
                 }
                 1 -> {
+                    startActivity(Intent(applicationContext, RestaurantActivity::class.java))
                     Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
                 }
             }
