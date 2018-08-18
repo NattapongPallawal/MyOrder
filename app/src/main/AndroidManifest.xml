@@ -19,19 +19,23 @@
         <activity android:name=".OrderHistoryActivity" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".SelectVerificationActivity" />
-        <activity android:name=".Register1Activity" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".Register1Activity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".Register2Activity"
-            android:noHistory="true"></activity>
+            android:theme="@style/NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
