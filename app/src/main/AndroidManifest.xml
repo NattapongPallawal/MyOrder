@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.natta.myorder">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -14,7 +16,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+
+        >
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
@@ -39,7 +43,14 @@
             android:name=".view.register.Register2Activity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".view.MyProfileActivity" />
-        <activity android:name=".view.restaurant.RestaurantActivity"></activity>
+        <activity
+            android:name=".view.restaurant.RestaurantActivity"
+            android:label="ร้านอาหาร" />
+        <activity
+            android:name=".view.restaurantdetail.RestaurantDetailActivity"
+            android:label="รายละเอียดร้านอาหาร"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FoodActivity"></activity>
     </application>
 
 </manifest>

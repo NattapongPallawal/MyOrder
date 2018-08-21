@@ -1,0 +1,8 @@
+package com.example.natta.myorder.data
+
+class Feedback constructor(var customer :String?="",
+                           var customerObj : Customer?= Customer(),
+                           var title : String? = "",
+                           var comment : String? = "",
+                           var rating : Double? = 0.0){
+}

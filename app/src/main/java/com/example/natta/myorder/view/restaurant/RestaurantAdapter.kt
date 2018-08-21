@@ -2,7 +2,9 @@ package com.example.natta.myorder.view.restaurant
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.location.Location
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +12,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Restaurant
+import com.example.natta.myorder.view.restaurantdetail.RestaurantDetailActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_restaurant.view.*
 
-class RestaurantAdapter(var context: Context, var latitude: Double, var longitude: Double) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+class RestaurantAdapter(var context: Context, private var latitude: Double, private var longitude: Double) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
     private var restaurantList = listOf<Restaurant>()
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RestaurantViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_restaurant, p0, false)
@@ -38,6 +42,16 @@ class RestaurantAdapter(var context: Context, var latitude: Double, var longitud
         p0.rating.rating = restaurantList[p1].rating!!.toFloat()
         p0.resTime.text = "เปิด ${restaurantList[p1].timeOpen} - ${restaurantList[p1].timeClose} น."
         p0.resLocation.text = "$distance กม."
+
+        p0.btnOrderFood.setOnClickListener {
+            Toast.makeText(context,"Order!!!!!!!!!",Toast.LENGTH_LONG).show()
+        }
+        p0.restaurantView.setOnClickListener {
+            val i = Intent(context, RestaurantDetailActivity::class.java)
+            i.putExtra("restaurant",restaurantList[p1])
+            i.putExtra("distance",distance)
+            context.startActivity(i)
+        }
     }
 
     private fun calculateDistance(latitude: Double?, longitude: Double?): String {
@@ -64,6 +78,7 @@ class RestaurantAdapter(var context: Context, var latitude: Double, var longitud
         var resLocation = view.resLocation_res as TextView
         var rating = view.rating_res as RatingBar
         var btnOrderFood = view.btnOrderFood_res as TextView
+        var restaurantView = view.restaurantView as ConstraintLayout
 
 
     }

@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_place" />
-                            <entry key="sourceFile" value="C:\Users\natta\Downloads\round-place-24px.svg" />
+                            <entry key="outputName" value="ic_directions" />
+                            <entry key="sourceFile" value="C:\Users\natta\Downloads\round-directions-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -15,14 +15,19 @@ import kotlinx.android.synthetic.main.activity_restaurant.*
 
 
 class RestaurantActivity : AppCompatActivity() {
-    private var latitude =0.0
+    private var latitude = 0.0
     private var longitude = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant)
+
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
+
+
         val model = ViewModelProviders.of(this).get(RestaurantViewModel::class.java)
         getLocation()
-        val adapter = RestaurantAdapter(applicationContext,latitude,longitude)
+        val adapter = RestaurantAdapter(applicationContext, latitude, longitude)
         recyclerView_restaurant.adapter = adapter
         recyclerView_restaurant.layoutManager = LinearLayoutManager(applicationContext)
 
@@ -34,6 +39,12 @@ class RestaurantActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
     @SuppressLint("MissingPermission")
     fun getLocation() {
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
