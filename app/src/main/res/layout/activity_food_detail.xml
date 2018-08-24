@@ -103,7 +103,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintTop_toBottomOf="@+id/amount_FD" />
 
 
             <TextView
@@ -168,18 +168,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
             <ImageView
-                android:id="@+id/imageView11"
+                android:id="@+id/addAmount_FD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_amount"
                 android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="@+id/editText"
-                app:layout_constraintStart_toEndOf="@+id/editText"
-                app:layout_constraintTop_toTopOf="@+id/editText" />
+                app:layout_constraintBottom_toBottomOf="@+id/amount_FD"
+                app:layout_constraintStart_toEndOf="@+id/amount_FD"
+                app:layout_constraintTop_toTopOf="@+id/amount_FD" />
 
             <ImageView
-                android:id="@+id/imageView12"
+                android:id="@+id/removeAmount_FD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -190,7 +190,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/amount_FD"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -201,10 +201,11 @@
                 android:inputType="numberDecimal"
                 android:maxLength="2"
                 android:padding="4dp"
+                android:text="1"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView12"
-                app:layout_constraintStart_toEndOf="@+id/imageView12"
-                app:layout_constraintTop_toTopOf="@+id/imageView12" />
+                app:layout_constraintBottom_toBottomOf="@+id/removeAmount_FD"
+                app:layout_constraintStart_toEndOf="@+id/removeAmount_FD"
+                app:layout_constraintTop_toTopOf="@+id/removeAmount_FD" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -212,7 +213,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -221,8 +222,9 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_login"
-            android:text="Button"
+            android:background="#FFF"
+            android:text="ยกเลิก"
+            android:elevation="10dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -231,9 +233,10 @@
             android:id="@+id/button2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_login"
-            android:text="Button"
-
+            android:background="#F68C22"
+            android:text="ยืนยัน"
+            android:elevation="10dp"
+            android:textColor="#FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
