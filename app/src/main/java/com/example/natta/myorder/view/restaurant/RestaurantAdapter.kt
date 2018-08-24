@@ -48,6 +48,7 @@ class RestaurantAdapter(var context: Context, private var latitude: Double, priv
         }
         p0.restaurantView.setOnClickListener {
             val i = Intent(context, RestaurantDetailActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             i.putExtra("restaurant",restaurantList[p1])
             i.putExtra("distance",distance)
             context.startActivity(i)

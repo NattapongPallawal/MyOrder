@@ -2,10 +2,7 @@ package com.example.natta.myorder.repository
 
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
-import com.example.natta.myorder.data.Customer
-import com.example.natta.myorder.data.Feedback
-import com.example.natta.myorder.data.Order
-import com.example.natta.myorder.data.Restaurant
+import com.example.natta.myorder.data.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,6 +17,7 @@ class RTDBRepository {
     private var uid = FirebaseAuth.getInstance().uid
     private var mFeedback = MutableLiveData<List<Feedback>>()
     private var mOneCustomer = Customer()
+    private var mFood = MutableLiveData<List<Food>>()
 
 
     fun getCustomerLogin(): MutableLiveData<Customer> {
@@ -45,6 +43,7 @@ class RTDBRepository {
                 mOrderHistory.value = orderList
             }
         })
+
         return mOrderHistory
     }
 
@@ -73,13 +72,9 @@ class RTDBRepository {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val feedbackList = mutableListOf<Feedback>()
-//                var cus: Customer
+
                 p0.children.forEach {
                     feedbackList.add(it.getValue(Feedback::class.java)!!)
-                  //  getOneCustomer(feedbackList.last().customer!!)
-//                    cus = mOneCustomer
-//                    feedbackList.last().customerObj = cus
-
                 }
                 mFeedback.value = feedbackList
             }
@@ -88,20 +83,27 @@ class RTDBRepository {
         return mFeedback
     }
 
-//    fun getOneCustomer(uid: String) {
-//        val mCustomerRef = mRootRef.child("customer").equalTo(uid)
-//        val listener = object : ValueEventListener {
-//
-//            override fun onCancelled(p0: DatabaseError) {}
-//            override fun onDataChange(p0: DataSnapshot) {
-//                mOneCustomer.firstName = p0.child("firstName").getValue(String::class.java)
-//                Log.d("CheckCustomer", "${mOneCustomer.firstName}")
-//            }
-//        }
-//        mCustomerRef.addListenerForSingleValueEvent(listener)
-//        mCustomerRef.removeEventListener(listener)
-//        Log.d("CheckCustomer11", "${mOneCustomer.firstName}")
-//
-//    }
+    fun getFood(resID: String): MutableLiveData<List<Food>> {
+        val mFoodRef = mRootRef.child("menu")
+        mFoodRef.addValueEventListener(object : ValueEventListener{
+            var foodList = mutableListOf<Food>()
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach {
+                    val food = it.getValue(Food::class.java)
+                    Log.d("foodddd","${food?.foodName}")
+                }
+                mFood.value = foodList
+            }
+
+        })
+        Log.d("foodddd","${mFood.value?.get(0)?.foodName}")
+        return mFood
+
+    }
+
 }
 

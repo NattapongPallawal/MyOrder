@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
-        >
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
@@ -49,8 +49,11 @@
         <activity
             android:name=".view.restaurantdetail.RestaurantDetailActivity"
             android:label="รายละเอียดร้านอาหาร"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FoodActivity"></activity>
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".view.food.FoodActivity" />
+        <activity
+            android:name=".view.fooddetail.FoodDetailActivity"
+            android:theme="@style/NoActionBar" />
     </application>
 
 </manifest>

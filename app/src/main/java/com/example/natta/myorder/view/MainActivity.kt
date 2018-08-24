@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
+import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.R
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.example.natta.myorder.view.login.LoginActivity
@@ -56,10 +57,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             when (position) {
                 0 -> {
                     Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
+                    startActivity(Intent(applicationContext, RestaurantActivity::class.java))
                 }
                 1 -> {
-                    startActivity(Intent(applicationContext, RestaurantActivity::class.java))
                     Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
+                    startActivity(Intent(applicationContext, FoodActivity::class.java))
+
                 }
             }
             return true
