@@ -2,15 +2,16 @@ package com.example.natta.myorder.view.fooddetail
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.chip.Chip
 import android.support.design.chip.ChipGroup
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.widget.Toast
+import com.example.natta.myorder.view.myorder.MyOrderActivity
 import com.example.natta.myorder.R
 import com.example.natta.myorder.viewmodel.FoodDetailViewModel
-import com.example.natta.myorder.viewmodel.FoodViewModel
 import kotlinx.android.synthetic.main.activity_food_detail.*
 
 @Suppress("DEPRECATION")
@@ -43,12 +44,14 @@ class FoodDetailActivity : AppCompatActivity() {
         }
 
         removeAmount_FD.setOnClickListener {
-            amount_FD.setText(model.removeAmount())
+            amount_FD.text = model.removeAmount()
         }
 
         addAmount_FD.setOnClickListener {
-            amount_FD.setText(model.addAmount())
-
+            amount_FD.text = model.addAmount()
+        }
+        btn_confirm.setOnClickListener {
+            startActivity(Intent(applicationContext, MyOrderActivity::class.java ))
         }
     }
 

@@ -189,20 +189,19 @@
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-            <EditText
+            <TextView
                 android:id="@+id/amount_FD"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_edit_text"
-                android:cursorVisible="false"
                 android:ems="2"
                 android:gravity="center"
-                android:inputType="numberDecimal"
                 android:maxLength="2"
                 android:padding="4dp"
                 android:text="1"
                 android:textAlignment="center"
+                android:textColor="#000"
                 app:layout_constraintBottom_toBottomOf="@+id/removeAmount_FD"
                 app:layout_constraintStart_toEndOf="@+id/removeAmount_FD"
                 app:layout_constraintTop_toTopOf="@+id/removeAmount_FD" />
@@ -230,12 +229,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#F68C22"
-            android:text="ยืนยัน"
             android:elevation="10dp"
+            android:text="ยืนยัน"
             android:textColor="#FFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
