@@ -54,7 +54,7 @@
             android:name=".view.fooddetail.FoodDetailActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".view.myorder.MyOrderActivity" />
-        <activity android:name=".PaymentActivity"></activity>
+        <activity android:name=".view.payment.PaymentActivity"></activity>
     </application>
 
 </manifest>
