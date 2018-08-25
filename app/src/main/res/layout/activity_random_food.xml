@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_random"
-    tools:context=".RandomFoodActivity">
+    tools:context=".view.randomfood.RandomFoodActivity">
 
     <Button
         android:id="@+id/button2"

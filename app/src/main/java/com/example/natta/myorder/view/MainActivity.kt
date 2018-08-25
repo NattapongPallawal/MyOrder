@@ -13,7 +13,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.natta.myorder.R
-import com.example.natta.myorder.RandomFoodActivity
+import com.example.natta.myorder.view.aboutapplication.AboutApplicationActivity
+import com.example.natta.myorder.view.randomfood.RandomFoodActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
 import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.login.LoginActivity
@@ -143,6 +144,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_random -> {
                 startActivity(Intent(applicationContext, RandomFoodActivity::class.java))
+            }
+            R.id.nav_about ->{
+                startActivity(Intent(applicationContext,AboutApplicationActivity::class.java))
             }
         }
 
