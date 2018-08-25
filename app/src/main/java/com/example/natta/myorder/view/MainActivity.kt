@@ -12,12 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Toast
-import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.R
+import com.example.natta.myorder.RandomFoodActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
-import com.example.natta.myorder.view.restaurant.RestaurantActivity
+import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.login.LoginActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
+import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -138,6 +139,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_favortie -> {
                 startActivity(Intent(applicationContext, FavoriteActivity::class.java))
+            }
+            R.id.nav_random -> {
+                startActivity(Intent(applicationContext, RandomFoodActivity::class.java))
             }
         }
 
