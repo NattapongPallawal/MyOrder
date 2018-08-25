@@ -57,7 +57,8 @@
         <activity android:name=".view.payment.PaymentActivity" />
         <activity
             android:name=".view.favorite.FavoriteActivity"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".RandomFoodActivity"></activity>
     </application>
 
 </manifest>
