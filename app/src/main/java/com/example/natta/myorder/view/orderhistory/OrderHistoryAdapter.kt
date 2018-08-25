@@ -1,6 +1,8 @@
 package com.example.natta.myorder.view.orderhistory
 
 import android.content.Context
+import android.content.Intent
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +10,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Order
+import com.example.natta.myorder.view.orderdetail.OrderDetailActivity
 import kotlinx.android.synthetic.main.list_order_history.view.*
 
 class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryHolder>() {
-    private var orderList= listOf<Order>()
+    private var orderList = listOf<Order>()
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OrderHistoryHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_order_history, p0, false)
         return OrderHistoryHolder(view)
@@ -29,6 +32,12 @@ class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHist
         p0.price.text = orderList[p1].total.toString()
         p0.orderID.text = orderList[p1].orderNumber.toString()
 
+        p0.orderHistory.setOnClickListener {
+            val i = Intent(context, OrderDetailActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(i)
+        }
+
     }
 
     fun setData(orders: List<Order>) {
@@ -42,5 +51,6 @@ class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHist
         var date = view.date_oh as TextView
         var price = view.price_oh as TextView
         var orderID = view.orderID as TextView
+        var orderHistory = view.order_history as ConstraintLayout
     }
 }

@@ -77,6 +77,9 @@
         <activity
             android:name=".view.opsl.OPSLActivity"
             android:label="Open source library" />
+        <activity
+            android:name=".view.orderdetail.OrderDetailActivity"
+            android:label="รายละเอียดออเดอร์" />
     </application>
 
 </manifest>
