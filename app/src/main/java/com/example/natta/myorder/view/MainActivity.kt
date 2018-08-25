@@ -17,6 +17,7 @@ import com.example.natta.myorder.RandomFoodActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
 import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.login.LoginActivity
+import com.example.natta.myorder.view.myprofile.MyProfileActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_profile -> {
-
+                startActivity(Intent(applicationContext,MyProfileActivity::class.java))
             }
             R.id.nav_order_history -> {
                 startActivity(Intent(applicationContext, OrderHistoryActivity::class.java))

@@ -7,4 +7,5 @@
     <color name="colorTabSelected">#FFFFFF</color>
     <color name="colorTab">#BFE3C7</color>
     <color name="colorGray">#DDDDDD</color>
+    <color name="colorEditText">#555555</color>
 </resources>
