@@ -41,7 +41,7 @@
         <activity
             android:name=".view.register.Register2Activity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".view.MyProfileActivity" />
+        <activity android:name=".view.myprofile.MyProfileActivity" />
         <activity
             android:name=".view.restaurant.RestaurantActivity"
             android:label="ร้านอาหาร" />
@@ -54,7 +54,10 @@
             android:name=".view.fooddetail.FoodDetailActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".view.myorder.MyOrderActivity" />
-        <activity android:name=".view.payment.PaymentActivity"></activity>
+        <activity android:name=".view.payment.PaymentActivity" />
+        <activity
+            android:name=".view.favorite.FavoriteActivity"
+            android:theme="@style/NoActionBar"/>
     </application>
 
 </manifest>

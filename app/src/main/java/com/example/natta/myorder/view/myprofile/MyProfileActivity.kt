@@ -1,4 +1,4 @@
-package com.example.natta.myorder.view
+package com.example.natta.myorder.view.myprofile
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

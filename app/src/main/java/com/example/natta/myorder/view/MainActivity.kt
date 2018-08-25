@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.R
+import com.example.natta.myorder.view.favorite.FavoriteActivity
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.example.natta.myorder.view.login.LoginActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
@@ -93,12 +94,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.contentCoverEnabled = false
     }
 
-    fun initMainTabPager() {
+    private fun initMainTabPager() {
         val tabPager = MainTabPager(supportFragmentManager)
         viewPager.adapter = tabPager
         tabLayout.setupWithViewPager(viewPager)
-
-
         tabLayout.getTabAt(0)!!.icon = resources.getDrawable(R.drawable.ic_home)
         tabLayout.getTabAt(1)!!.icon = resources.getDrawable(R.drawable.ic_order)
         tabLayout.getTabAt(2)!!.icon = resources.getDrawable(R.drawable.ic_notifications)
@@ -136,6 +135,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     startActivity(Intent(applicationContext, LoginActivity::class.java))
                     finish()
                 }
+            }
+            R.id.nav_favortie -> {
+                startActivity(Intent(applicationContext, FavoriteActivity::class.java))
             }
         }
 
