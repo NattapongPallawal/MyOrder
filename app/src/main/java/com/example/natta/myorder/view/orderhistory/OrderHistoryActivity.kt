@@ -17,6 +17,8 @@ class OrderHistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_history)
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val model = ViewModelProviders.of(this).get(OrderHistoryViewModel::class.java)
         val adapter = OrderHistoryAdapter(applicationContext)
@@ -31,5 +33,10 @@ class OrderHistoryActivity : AppCompatActivity() {
         })
 
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

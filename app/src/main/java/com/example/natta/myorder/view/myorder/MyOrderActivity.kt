@@ -14,6 +14,9 @@ class MyOrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_order)
 
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
+
         val adapter = MyOrderAdapter(applicationContext)
         recyclerView_MO.adapter = adapter
         recyclerView_MO.layoutManager = LinearLayoutManager(applicationContext)
@@ -21,5 +24,10 @@ class MyOrderActivity : AppCompatActivity() {
         btn_payment_MO.setOnClickListener {
             startActivity(Intent(applicationContext,PaymentActivity::class.java))
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

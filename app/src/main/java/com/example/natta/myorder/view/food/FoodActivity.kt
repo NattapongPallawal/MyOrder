@@ -20,17 +20,24 @@ class FoodActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
         addChip(foodSize)
 
         val adapter = FoodAdapter(applicationContext)
         setUpFood(adapter)
         val model = ViewModelProviders.of(this).get(FoodViewModel::class.java)
         model.getFood().observe(this, Observer {
-            if (it != null){
+            if (it != null) {
                 adapter.setData(it)
             }
         })
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun setUpFood(adapter: FoodAdapter) {

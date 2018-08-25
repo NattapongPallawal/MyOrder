@@ -15,6 +15,9 @@ class MyProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
+
         binding()
 
         edit(btn_editPerson,edtPerson,btn_savePerson)
@@ -25,6 +28,10 @@ class MyProfileActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
     private fun save(btnSave: ImageButton, edtPerson: ArrayList<EditText>,btnEdit:ImageButton) {
         btnSave.setOnClickListener {
             for (i in edtPerson)

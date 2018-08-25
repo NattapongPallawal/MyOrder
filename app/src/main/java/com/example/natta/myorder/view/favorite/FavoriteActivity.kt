@@ -29,8 +29,12 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
+        toolbar_fav.setNavigationOnClickListener {
+            onBackPressed()
+        }
         initFavoriteTabPager()
     }
+
 
     private fun initFavoriteTabPager() {
         val tabPager = FavoriteFoodTabPager(supportFragmentManager)
