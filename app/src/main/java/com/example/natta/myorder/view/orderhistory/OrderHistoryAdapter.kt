@@ -3,6 +3,7 @@ package com.example.natta.myorder.view.orderhistory
 import android.content.Context
 import android.content.Intent
 import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,6 @@ class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHist
         var date = view.date_oh as TextView
         var price = view.price_oh as TextView
         var orderID = view.orderID as TextView
-        var orderHistory = view.order_history as ConstraintLayout
+        var orderHistory = view.order_history as CardView
     }
 }
