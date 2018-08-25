@@ -14,12 +14,13 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.view.aboutapplication.AboutApplicationActivity
-import com.example.natta.myorder.view.randomfood.RandomFoodActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
 import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.login.LoginActivity
 import com.example.natta.myorder.view.myprofile.MyProfileActivity
+import com.example.natta.myorder.view.opsl.OPSLActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
+import com.example.natta.myorder.view.randomfood.RandomFoodActivity
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -126,7 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_profile -> {
-                startActivity(Intent(applicationContext,MyProfileActivity::class.java))
+                startActivity(Intent(applicationContext, MyProfileActivity::class.java))
             }
             R.id.nav_order_history -> {
                 startActivity(Intent(applicationContext, OrderHistoryActivity::class.java))
@@ -145,8 +146,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_random -> {
                 startActivity(Intent(applicationContext, RandomFoodActivity::class.java))
             }
-            R.id.nav_about ->{
-                startActivity(Intent(applicationContext,AboutApplicationActivity::class.java))
+            R.id.nav_about -> {
+                startActivity(Intent(applicationContext, AboutApplicationActivity::class.java))
+            }
+            R.id.nav_osl -> {
+                startActivity(Intent(applicationContext, OPSLActivity::class.java))
             }
         }
 

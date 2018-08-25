@@ -64,7 +64,8 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".view.aboutapplication.AboutApplicationActivity"></activity>
+        <activity android:name=".view.aboutapplication.AboutApplicationActivity" />
+        <activity android:name=".view.opsl.OPSLActivity"></activity>
     </application>
 
 </manifest>
