@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Address
 import com.example.natta.myorder.data.Customer
 import com.example.natta.myorder.view.MainActivity
 import com.example.natta.myorder.view.forgotpassword.ForgotPasswordActivity
@@ -108,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                 startAnimation()
                 mAuth.createUserWithEmailAndPassword(reg[3], reg[4]).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        mCustomer.child(mAuth.uid!!).setValue(Customer(reg[0], reg[1], reg[2], null, null, null, null))
+                        mCustomer.child(mAuth.uid!!).setValue(Customer(reg[0], reg[1], "260939", reg[2], "", "", Address()))
                     } else {
                         stopAnimation()
                     }

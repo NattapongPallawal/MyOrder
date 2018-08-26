@@ -24,6 +24,7 @@ class Register2Activity : AppCompatActivity() {
             if (phoneNumber.isEmpty()) register2_phoneNumber.error = "กรุณาป้อนเบอร์โทรศัพท์"
 
             if (checkValue(firstName, lastName, phoneNumber)) {
+
                 val reg = arrayListOf<String>(firstName, lastName, phoneNumber, email, password)
                 val i = Intent()
                 i.putExtra("reg", reg)
