@@ -13,21 +13,22 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
+        android:id="@+id/pic_profile_main"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/nat"/>
+        android:src="@color/colorWhite" />
 
     <TextView
+        android:id="@+id/name_profile_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/name"
+        android:text="Nattapong"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/email_profile_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/emailValue" />

@@ -1,8 +1,12 @@
 package com.example.natta.myorder.view
 
+import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
@@ -10,9 +14,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Customer
 import com.example.natta.myorder.view.aboutapplication.AboutApplicationActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
 import com.example.natta.myorder.view.food.FoodActivity
@@ -22,10 +28,13 @@ import com.example.natta.myorder.view.opsl.OPSLActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
 import com.example.natta.myorder.view.randomfood.RandomFoodActivity
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
+import com.example.natta.myorder.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import uk.co.markormesher.android_fab.SpeedDialMenuAdapter
 import uk.co.markormesher.android_fab.SpeedDialMenuItem
 
@@ -76,21 +85,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun fabRotationDegrees(): Float = 45f
 
     }
-
+    private lateinit var model: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
+        model = ViewModelProviders.of(this).get(MainViewModel::class.java)
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
-
         initMainTabPager()
         initFabAddOrder()
         nav_view.setNavigationItemSelectedListener(this)
+
+        Delay(1000).execute()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateUI(customer: Customer, email: String) {
+        try {
+            name_profile_main.text = customer.firstName.toString() + " " + customer.lastName.toString()
+            email_profile_main.text = email
+
+        } catch (e: IllegalStateException) {
+
+        }
+        try {
+            Picasso.get().load(customer.picture).into(pic_profile_main)
+        } catch (e: IllegalArgumentException) {
+        }
     }
 
     private fun initFabAddOrder() {
@@ -156,5 +180,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun getCustomer() {
+        model.getCustomer().observe(this, Observer {
+            Log.d("Cus444", "${it?.firstName}")
+//            name_profile_main.text = it?.firstName.toString()
+            if (it != null) {
+                updateUI(it, model.getEmail())
+            }
+        })
+
+    }
+
+    internal inner class Delay(var time: Long) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg p0: Void?): Void? {
+            Thread.sleep(time)
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            super.onPostExecute(result)
+            getCustomer()
+        }
+
     }
 }
