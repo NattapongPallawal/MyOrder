@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@drawable/bg_login2"
     tools:context=".view.register.Register1Activity">
 
     <ImageView
@@ -12,90 +12,104 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
-    <android.support.v7.widget.CardView
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_login"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/fab_background" />
 
-            <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/fab_background" />
+        <EditText
+            android:id="@+id/register1_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_edit_text3"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
-            <EditText
-                android:id="@+id/register1_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:ems="10"
-                android:hint="@string/email"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        <EditText
+            android:id="@+id/register1_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_edit_text3"
+            android:ems="10"
+            android:hint="รหัสผ่าน"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/register1_email"
+            app:layout_constraintStart_toStartOf="@+id/register1_email"
+            app:layout_constraintTop_toBottomOf="@+id/register1_email" />
 
-            <EditText
-                android:id="@+id/register1_password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="รหัสผ่าน"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="@+id/register1_email"
-                app:layout_constraintStart_toStartOf="@+id/register1_email"
-                app:layout_constraintTop_toBottomOf="@+id/register1_email" />
+        <EditText
+            android:id="@+id/register1_confirmPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_edit_text3"
+            android:ems="10"
+            android:hint="ยืนยันรหัสผ่าน"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/register1_password"
+            app:layout_constraintStart_toStartOf="@+id/register1_password"
+            app:layout_constraintTop_toBottomOf="@+id/register1_password" />
 
-            <EditText
-                android:id="@+id/register1_confirmPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ems="10"
-                android:hint="ยืนยันรหัสผ่าน"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="@+id/register1_password"
-                app:layout_constraintStart_toStartOf="@+id/register1_password"
-                app:layout_constraintTop_toBottomOf="@+id/register1_password" />
+        <Button
+            android:id="@+id/register1_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_btn3"
+            android:text="@string/next"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/register1_confirmPassword"
+            app:layout_constraintStart_toStartOf="@+id/register1_confirmPassword"
+            app:layout_constraintTop_toBottomOf="@+id/register1_confirmPassword" />
 
-            <Button
-                android:id="@+id/register1_next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/next"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/register1_confirmPassword"
-                app:layout_constraintStart_toStartOf="@+id/register1_confirmPassword"
-                app:layout_constraintTop_toBottomOf="@+id/register1_confirmPassword" />
+    </android.support.constraint.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

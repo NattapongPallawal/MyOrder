@@ -15,6 +15,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         button_send_email.setOnClickListener {
             val email = forgot_email.text.toString()
+
             mAuth.sendPasswordResetEmail(email).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(applicationContext, "ระบบได้ส่งอีเมลล์รีเซ็ตรหัสผ่านไปที่ $email เรียบร้อยแล้ว", Toast.LENGTH_LONG).show()

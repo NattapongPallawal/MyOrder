@@ -31,7 +31,6 @@ class Register1Activity : AppCompatActivity() {
                 setResult(2, data)
                 finish()
             }
-
         }
     }
 }
