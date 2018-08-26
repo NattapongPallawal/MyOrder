@@ -57,7 +57,7 @@
             android:background="@drawable/bg_edit_text3"
             android:ems="10"
             android:hint="@string/email"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:padding="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

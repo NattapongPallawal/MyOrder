@@ -4,7 +4,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
@@ -42,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (!it.isSuccessful) {
                         stopAnimation()
+                        Snackbar.make(layout_login,"email หรือ รหัสผ่านผิด กรุณาลองใหม่อีกครั้ง",Snackbar.LENGTH_LONG).show()
                     }
                 }
             }
@@ -110,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
                         stopAnimation()
                     }
                 }.addOnFailureListener {
-                    Toast.makeText(applicationContext, "Create User Unsuccessful ${mAuth.uid}", Toast.LENGTH_LONG).show()
+                    Snackbar.make(layout_login,"email นี้ ถูกใช้งานไปแล้ว",Snackbar.LENGTH_LONG).show()
                 }
             }
         }
