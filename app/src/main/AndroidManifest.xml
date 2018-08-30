@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.location.gps" />
 
@@ -45,7 +46,8 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.myprofile.MyProfileActivity"
-            android:label="โปรไฟล์ของฉัน" />
+            android:label="โปรไฟล์ของฉัน"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.restaurant.RestaurantActivity"
             android:label="ร้านอาหาร" />

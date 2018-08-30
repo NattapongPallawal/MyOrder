@@ -4,7 +4,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.example.natta.myorder.data.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class RTDBRepository {
     private var mRootRef = FirebaseDatabase.getInstance().reference
@@ -19,22 +22,19 @@ class RTDBRepository {
     private val mCustomerRef = mRootRef.child("customer").child(this.uid!!)
     private var mEmail = " "
 
-
+    fun getUID(): String {
+        return this.uid
+    }
     fun getCustomerLogin(): MutableLiveData<Customer> {
         mCustomerRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val a = p0.getValue(Customer::class.java)
-                Log.d("Customer1", "${a?.firstName}")
-                mCustomerLiveData.value = a
+                mCustomerLiveData.value = p0.getValue(Customer::class.java)
             }
         })
-
-        Log.d("Customer", "${mCustomerLiveData.value?.firstName}")
-
-
         return mCustomerLiveData
     }
+
     fun getEmail(): String {
         mEmail = mAuth.currentUser?.email.toString()
 
@@ -113,6 +113,12 @@ class RTDBRepository {
         Log.d("foodddd", "${mFood.value?.get(0)?.foodName}")
         return mFood
 
+    }
+
+    fun setCustomer(customer: Customer) {
+        mCustomerRef.setValue(customer).addOnFailureListener {
+            throw Exception(it.message)
+        }
     }
 
 }

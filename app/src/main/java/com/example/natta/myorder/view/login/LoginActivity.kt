@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity() {
                 startAnimation()
                 mAuth.createUserWithEmailAndPassword(reg[3], reg[4]).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        mCustomer.child(mAuth.uid!!).setValue(Customer(reg[0], reg[1], "260939", reg[2], "", "", Address()))
+                        mCustomer.child(mAuth.uid!!).setValue(Customer(reg[0], reg[1], "", reg[2], "", "", Address()))
                     } else {
                         stopAnimation()
                     }
