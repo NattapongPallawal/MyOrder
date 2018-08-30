@@ -8,14 +8,16 @@ class Food constructor(var foodName: String? = "",
                        var picture: String? = "",
                        var restaurantID: String? = "",
                        var available: Boolean? = true,
-                       var rete: Double? = 0.0) : Parcelable {
+                       var rate: Double? = 0.0,
+                       var type: String? = "") : Parcelable {
     constructor(parcel: Parcel) : this(
-            foodName = parcel.readString(),
-            price = parcel.readValue(Double::class.java.classLoader) as? Double,
-            picture = parcel.readString(),
-            restaurantID = parcel.readString(),
-            available = parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
-            rete = parcel.readValue(Double::class.java.classLoader) as? Double) {
+            parcel.readString(),
+            parcel.readValue(Double::class.java.classLoader) as? Double,
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+            parcel.readValue(Double::class.java.classLoader) as? Double,
+            parcel.readString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -24,7 +26,8 @@ class Food constructor(var foodName: String? = "",
         parcel.writeString(picture)
         parcel.writeString(restaurantID)
         parcel.writeValue(available)
-        parcel.writeValue(rete)
+        parcel.writeValue(rate)
+        parcel.writeString(type)
     }
 
     override fun describeContents(): Int {
@@ -40,5 +43,5 @@ class Food constructor(var foodName: String? = "",
             return arrayOfNulls(size)
         }
     }
-
 }
+

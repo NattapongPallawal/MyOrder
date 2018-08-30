@@ -19,12 +19,15 @@ class RTDBRepository {
     private var mFeedback = MutableLiveData<List<Feedback>>()
     private var mOneCustomer = Customer()
     private var mFood = MutableLiveData<List<Food>>()
-    private val mCustomerRef = mRootRef.child("customer").child(this.uid!!)
+    private val mCustomerRef = mRootRef.child("customer").child(this.uid)
     private var mEmail = " "
+
+
 
     fun getUID(): String {
         return this.uid
     }
+
     fun getCustomerLogin(): MutableLiveData<Customer> {
         mCustomerRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
@@ -37,6 +40,7 @@ class RTDBRepository {
 
     fun getEmail(): String {
         mEmail = mAuth.currentUser?.email.toString()
+
 
         return mEmail
     }
@@ -63,14 +67,19 @@ class RTDBRepository {
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
                 val restaurantList = mutableListOf<Restaurant>()
+
                 p0.children.forEach {
-                    restaurantList.add(it.getValue(Restaurant::class.java)!!)
+                    val res = it.getValue(Restaurant::class.java)!!
+                    res.setKey(it.key!!)
+                    restaurantList.add(res)
+
+
                 }
                 mRestaurant.value = restaurantList
+
             }
         })
         return mRestaurant
-
     }
 
     fun getFeedback(resID: String): MutableLiveData<List<Feedback>> {
@@ -116,10 +125,14 @@ class RTDBRepository {
     }
 
     fun setCustomer(customer: Customer) {
-        mCustomerRef.setValue(customer).addOnFailureListener {
-            throw Exception(it.message)
-        }
-    }
+        mCustomerRef.setValue(customer)
+                .addOnFailureListener {
+                    throw Exception(it.message)
+                }
+                .addOnSuccessListener {
 
+                }
+
+    }
 }
 

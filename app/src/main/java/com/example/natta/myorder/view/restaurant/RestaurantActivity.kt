@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.viewmodel.RestaurantViewModel
@@ -24,7 +25,6 @@ class RestaurantActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
-
         val model = ViewModelProviders.of(this).get(RestaurantViewModel::class.java)
         getLocation()
         val adapter = RestaurantAdapter(applicationContext, latitude, longitude)
@@ -36,8 +36,6 @@ class RestaurantActivity : AppCompatActivity() {
                 adapter.setData(it)
             }
         })
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

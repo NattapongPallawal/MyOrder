@@ -17,10 +17,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Customer
+import com.example.natta.myorder.repository.RTDBRepository
 import com.example.natta.myorder.viewmodel.MyProfileViewModel
 import com.google.firebase.storage.FirebaseStorage
 import com.zxy.tiny.Tiny
-import com.zxy.tiny.callback.FileWithBitmapCallback
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.content_person.*
 import kotlinx.android.synthetic.main.content_person_address.*
@@ -29,7 +29,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class MyProfileActivity : AppCompatActivity() {
+class MyProfileActivity : AppCompatActivity(){
+
+
     private val PICK_IMAGE_REQUEST = 111
     private var mCalendar = Calendar.getInstance()
     private var edtPerson = arrayListOf<EditText>()
@@ -70,10 +72,9 @@ class MyProfileActivity : AppCompatActivity() {
                     mCalendar.get(Calendar.MONTH),
                     mCalendar.get(Calendar.DAY_OF_MONTH))
                     .show()
-
         }
-
     }
+
 
     private fun chooseImage() {
         val i = Intent()
@@ -145,6 +146,7 @@ class MyProfileActivity : AppCompatActivity() {
         } catch (e: IllegalArgumentException) {
         }
     }
+
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
         name_profile.text = "${customer.firstName} ${customer.lastName}"
@@ -193,10 +195,10 @@ class MyProfileActivity : AppCompatActivity() {
             btnSave.visibility = View.GONE
             btnEdit.visibility = View.VISIBLE
 
-            if (btnEdit === btn_editPerson || btnEdit === btn_savePerson){
+            if (btnEdit === btn_editPerson || btnEdit === btn_savePerson) {
                 btn_pick_date.visibility = View.GONE
 
-            }else{
+            } else {
 
             }
 

@@ -12,15 +12,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Restaurant
+import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.restaurantdetail.RestaurantDetailActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_restaurant.view.*
 
 class RestaurantAdapter(var context: Context, private var latitude: Double, private var longitude: Double) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
     private var restaurantList = listOf<Restaurant>()
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RestaurantViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_restaurant, p0, false)
         return RestaurantViewHolder(view)
@@ -38,19 +39,23 @@ class RestaurantAdapter(var context: Context, private var latitude: Double, priv
                 restaurantList[p1].address!!.longitude)
 
         Picasso.get().load(restaurantList[p1].picture).into(p0.imageView)
+
         p0.resName.text = restaurantList[p1].restaurantName.toString()
         p0.rating.rating = restaurantList[p1].rating!!.toFloat()
         p0.resTime.text = "เปิด ${restaurantList[p1].timeOpen} - ${restaurantList[p1].timeClose} น."
         p0.resLocation.text = "$distance กม."
 
         p0.btnOrderFood.setOnClickListener {
-            Toast.makeText(context,"Order!!!!!!!!!",Toast.LENGTH_LONG).show()
+            val i = Intent(context, FoodActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            i.putExtra("resKey",restaurantList[p1].getKey())
+            context.startActivity(i)
         }
         p0.restaurantView.setOnClickListener {
             val i = Intent(context, RestaurantDetailActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            i.putExtra("restaurant",restaurantList[p1])
-            i.putExtra("distance",distance)
+            i.putExtra("restaurant", restaurantList[p1])
+            i.putExtra("distance", distance)
             context.startActivity(i)
         }
     }

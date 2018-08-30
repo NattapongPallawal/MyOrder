@@ -14,7 +14,19 @@ class Restaurant constructor(var restaurantName: String? = "",
                              var timeClose: String? = "",
                              var address: Address? = Address(),
                              var about: String? = "",
-                             var phoneNumber: String? = "") :Parcelable{
+                             var phoneNumber: String? = "") : Parcelable {
+
+    private var key: String = " "
+
+    fun getKey(): String {
+        return key
+    }
+
+    fun setKey(key: String) {
+        this.key = key
+    }
+
+
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),

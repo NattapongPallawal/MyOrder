@@ -10,18 +10,28 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Restaurant
 import com.example.natta.myorder.viewmodel.FoodViewModel
 import kotlinx.android.synthetic.main.activity_food.*
 
 @Suppress("DEPRECATION")
 class FoodActivity : AppCompatActivity() {
-
+    var restaurant = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
+        try {
+            restaurant = intent.getStringExtra("resKey")
+            Toast.makeText(applicationContext, restaurant, Toast.LENGTH_LONG).show()
+
+        } catch (e: IllegalStateException) {
+            Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
+        }
+
         addChip(foodSize)
 
         val adapter = FoodAdapter(applicationContext)
