@@ -57,7 +57,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".view.food.FoodActivity"
-            android:label="เมนู" />
+            android:label="เมนู"/>
         <activity
             android:name=".view.fooddetail.FoodDetailActivity"
             android:theme="@style/NoActionBar" />

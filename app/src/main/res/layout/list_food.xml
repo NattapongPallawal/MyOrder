@@ -27,28 +27,28 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/picture_food"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:src="@color/colorGray"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/foodName_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+                app:layout_constraintTop_toBottomOf="@+id/picture_food" />
 
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/rating_food"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,19 +56,19 @@
                 android:numStars="5"
                 android:rating="3.2"
                 android:stepSize="0.1"
-                app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintStart_toStartOf="@+id/foodName_food"
+                app:layout_constraintTop_toBottomOf="@+id/foodName_food" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/price_food"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/ratingBar"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+                app:layout_constraintStart_toStartOf="@+id/rating_food"
+                app:layout_constraintTop_toBottomOf="@+id/rating_food" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

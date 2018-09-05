@@ -10,36 +10,69 @@ import com.google.firebase.database.ValueEventListener
 
 class FoodRTDBRepository {
     private var mRootRef = FirebaseDatabase.getInstance().reference
+    private var mFood = MutableLiveData<ArrayList<Pair<String, Food>>>()
+    private var listType = MutableLiveData<ArrayList<Pair<String,String>>>()
+    private var typeValue = MutableLiveData<List<String>>()
+    private val type = MutableLiveData<String>()
 
-    private var mFood = MutableLiveData<List<Food>>()
-    private var mKey = MutableLiveData<List<String>>()
-    private var pair : MutableLiveData<Pair<MutableLiveData<List<String>>,MutableLiveData<List<Food>>>>? = null
+    fun getFoodSize(FID : String){
+        val mFoodRef = mRootRef.child("foodSize").child(FID)
+        mFoodRef.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+            }
 
-    fun getFood(resID: String): MutableLiveData<List<Food>> {
-        val mFoodRef = mRootRef.child("menu").child("res-test1")
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+        })
+    }
+
+    fun getMenuType(resID: String): MutableLiveData<ArrayList<Pair<String, String>>> {
+        val foodList = getFood(resID)
+        foodList?.observeForever {
+            val type = arrayListOf<Pair<String, String>>()
+            it?.forEach {
+                if (checkType(type, it.second.type)) {
+                    type.add(Pair(it.first,it.second.type!!))
+                    Log.d("TypeFood", it.second.type)
+                }
+            }
+            this.listType.value = type
+        }
+
+        return listType
+    }
+
+
+    private fun checkType(type: ArrayList<Pair<String, String>>, type1: String?): Boolean {
+        type.forEach {
+            if (it.first == type1) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun getFood(resID: String): MutableLiveData<ArrayList<Pair<String, Food>>>? {
+        val mFoodRef = mRootRef.child("menu").child(resID).orderByChild("available").equalTo(true)
+
         mFoodRef.addValueEventListener(object : ValueEventListener {
-            var foodList = mutableListOf<Food>()
             override fun onCancelled(p0: DatabaseError) {
 
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                p0.children.forEach {
 
+                val listFood = arrayListOf<Pair<String, Food>>()
+                p0.children.forEach {
+                    val key = it.key!!
                     val food = it.getValue(Food::class.java)!!
-                    if (food.available == true) {
-                        foodList.add(food)
-//                        key.add(it.key.toString())
-                        Log.d("foodKey",it.key.toString())
-                    }
+                    listFood.add(Pair(key, food))
                 }
-                mFood.value = foodList
-//                mKey.value = key
-//                pair?.value?.copy(mKey,mFood)
+                mFood.value = listFood
             }
 
         })
-
         return mFood
 
 

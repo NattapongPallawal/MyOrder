@@ -6,19 +6,25 @@ import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.repository.FoodRTDBRepository
 
 class FoodViewModel : ViewModel() {
-    private var mFood = MutableLiveData<List<Food>>()
+    private var mFood = MutableLiveData<ArrayList<Pair<String, Food>>>()
+
     private var mRTDBRepository = FoodRTDBRepository()
-    private var food: Pair<MutableLiveData<List<String>>, MutableLiveData<List<Food>>>? = null
+    private var food: Pair<MutableLiveData<ArrayList<String>>, MutableLiveData<List<Food>>>? = null
+    private var type = MutableLiveData<ArrayList<Pair<String, String>>>()
 
 
-    fun getFood(resID: String = "123"): MutableLiveData<List<Food>> {
-//        mRTDBRepository.getFood(resID)?.observeForever {
-//            if (it != null) {
-//                mFood = it.second
-//            }
-//
-//        }
-        mFood = mRTDBRepository.getFood(resID)
+    fun getFood(resID: String): MutableLiveData<ArrayList<Pair<String, Food>>>? {
+        mFood = mRTDBRepository.getFood(resID)!!
         return mFood
     }
+
+    fun getMenuType(resID: String): MutableLiveData<ArrayList<Pair<String, String>>> {
+        type =   mRTDBRepository.getMenuType(resID)
+
+        return type
+    }
+
+
 }
+
+

@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/PromtTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PromtButtonStyle</item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -13,15 +15,27 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/PromtTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PromtButtonStyle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textViewStyle">@style/PromtTextViewStyle</item>
+        <item name="android:buttonStyle">@style/PromtButtonStyle</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PromtTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/prompt_light</item>
+    </style>
+
+    <style name="PromtButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">@font/prompt_light</item>
+    </style>
 
 </resources>

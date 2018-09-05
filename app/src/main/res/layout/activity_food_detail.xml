@@ -18,9 +18,9 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/pic_FD"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="253dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -28,19 +28,19 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/foodName_FD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/prompt"
                 android:text="Food Name"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView8" />
+                app:layout_constraintTop_toBottomOf="@+id/pic_FD" />
 
             <RatingBar
-                android:id="@+id/ratingBar2"
+                android:id="@+id/rating_FD"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,19 +48,19 @@
                 android:numStars="5"
                 android:rating="3.5"
                 android:stepSize="0.1"
-                app:layout_constraintStart_toStartOf="@+id/textView6"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintStart_toStartOf="@+id/foodName_FD"
+                app:layout_constraintTop_toBottomOf="@+id/foodName_FD" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/price_FD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="0.-"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ratingBar2"
+                app:layout_constraintBottom_toBottomOf="@+id/rating_FD"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView6" />
+                app:layout_constraintTop_toTopOf="@+id/foodName_FD" />
 
             <View
                 android:id="@+id/divider3"
@@ -70,7 +70,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
+                app:layout_constraintTop_toBottomOf="@+id/rating_FD" />
 
             <View
                 android:id="@+id/divider4"
@@ -218,12 +218,12 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#FFF"
-            android:text="ยกเลิก"
             android:elevation="10dp"
+            android:text="ยกเลิก"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

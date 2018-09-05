@@ -11,18 +11,23 @@ import android.view.Gravity
 import android.widget.Toast
 import com.example.natta.myorder.view.myorder.MyOrderActivity
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.viewmodel.FoodDetailViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
 
 @Suppress("DEPRECATION")
 class FoodDetailActivity : AppCompatActivity() {
-
+    private var model: FoodDetailViewModel? = null
+    private var food = Food()
+    private var key = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
-
-        val model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
-
+        food = intent.getParcelableExtra("food")
+        key = intent.getStringExtra("foodKey")
+        model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
+        initView()
         addChip(foodSize)
         addChip(foodType)
 
@@ -42,16 +47,27 @@ class FoodDetailActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "null", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun initView() {
+        Picasso.get().load(food.picture).into(pic_FD)
+        foodName_FD.text = food.foodName
+        rating_FD.rating = food.rate!!.toFloat()
+        price_FD.text = food.price.toString()
 
         removeAmount_FD.setOnClickListener {
-            amount_FD.text = model.removeAmount()
+            amount_FD.text = model!!.removeAmount()
         }
 
         addAmount_FD.setOnClickListener {
-            amount_FD.text = model.addAmount()
+            amount_FD.text = model!!.addAmount()
         }
         btn_confirm.setOnClickListener {
-            startActivity(Intent(applicationContext, MyOrderActivity::class.java ))
+            startActivity(Intent(applicationContext, MyOrderActivity::class.java))
+        }
+
+        btn_cancel.setOnClickListener {
+            finish()
         }
     }
 
