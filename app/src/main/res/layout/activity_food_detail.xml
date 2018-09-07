@@ -10,12 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="1dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="37dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 
             <ImageView
                 android:id="@+id/pic_FD"
@@ -205,6 +206,18 @@
                 app:layout_constraintBottom_toBottomOf="@+id/removeAmount_FD"
                 app:layout_constraintStart_toEndOf="@+id/removeAmount_FD"
                 app:layout_constraintTop_toTopOf="@+id/removeAmount_FD" />
+
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/add_to_favorite_food"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/price_FD"
+                app:layout_constraintEnd_toStartOf="@+id/price_FD"
+                app:layout_constraintTop_toTopOf="@+id/price_FD"
+                app:lottie_fileName="heart.json" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 

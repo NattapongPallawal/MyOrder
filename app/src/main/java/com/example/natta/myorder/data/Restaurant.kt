@@ -2,6 +2,7 @@ package com.example.natta.myorder.data
 
 import android.os.Parcel
 import android.os.Parcelable
+import javax.sql.StatementEvent
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -12,21 +13,19 @@ class Restaurant constructor(var restaurantName: String? = "",
                              var promtPayID: String? = "",
                              var timeOpen: String? = "",
                              var timeClose: String? = "",
+                             var time : RestaurantTime? = RestaurantTime(),
                              var address: Address? = Address(),
                              var about: String? = "",
                              var phoneNumber: String? = "") : Parcelable {
 
-    private var key: String = " "
+    private var key : String? = ""
 
-    fun getKey(): String {
-        return key
-    }
-
-    fun setKey(key: String) {
+    fun setKey(key : String){
         this.key = key
     }
-
-
+    fun getKey(): String? {
+        return this.key
+    }
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
@@ -35,6 +34,7 @@ class Restaurant constructor(var restaurantName: String? = "",
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
+            parcel.readParcelable(RestaurantTime::class.java.classLoader),
             parcel.readParcelable(Address::class.java.classLoader),
             parcel.readString(),
             parcel.readString()) {
@@ -48,6 +48,7 @@ class Restaurant constructor(var restaurantName: String? = "",
         parcel.writeString(promtPayID)
         parcel.writeString(timeOpen)
         parcel.writeString(timeClose)
+        parcel.writeParcelable(time, flags)
         parcel.writeParcelable(address, flags)
         parcel.writeString(about)
         parcel.writeString(phoneNumber)
@@ -66,5 +67,4 @@ class Restaurant constructor(var restaurantName: String? = "",
             return arrayOfNulls(size)
         }
     }
-
 }

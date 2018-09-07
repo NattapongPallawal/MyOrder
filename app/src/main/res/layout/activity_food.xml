@@ -5,16 +5,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <Spinner
-        android:id="@+id/spinner_food"
+    <HorizontalScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:scrollbars="none">
+
+        <android.support.design.chip.ChipGroup
+            android:id="@+id/menuType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:singleLine="true"
+            app:singleSelection="true">
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+            <android.support.design.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text="hhsdhkjvkhh" />
+
+
+        </android.support.design.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_food"
@@ -26,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_food"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
         tools:listitem="@layout/list_food" />
 
 

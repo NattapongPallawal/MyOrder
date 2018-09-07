@@ -10,7 +10,7 @@ class FoodViewModel : ViewModel() {
 
     private var mRTDBRepository = FoodRTDBRepository()
     private var food: Pair<MutableLiveData<ArrayList<String>>, MutableLiveData<List<Food>>>? = null
-    private var type = MutableLiveData<ArrayList<Pair<String, String>>>()
+    private var type = MutableLiveData<ArrayList<String>>()
 
 
     fun getFood(resID: String): MutableLiveData<ArrayList<Pair<String, Food>>>? {
@@ -18,7 +18,7 @@ class FoodViewModel : ViewModel() {
         return mFood
     }
 
-    fun getMenuType(resID: String): MutableLiveData<ArrayList<Pair<String, String>>> {
+    fun getMenuType(resID: String): MutableLiveData<ArrayList<String>> {
         type =   mRTDBRepository.getMenuType(resID)
 
         return type

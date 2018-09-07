@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Food
@@ -18,6 +19,8 @@ import kotlinx.android.synthetic.main.list_food.view.*
 
 class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     private var food= arrayListOf<Pair<String, Food>>()
+    private var resKey: String = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_food, parent, false)
         return FoodViewHolder(view)
@@ -41,12 +44,21 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             i.putExtra("food",food[position].second)
             i.putExtra("foodKey",food[position].first)
+            i.putExtra("resKey",resKey)
             context.startActivity(i)
         }
+
+        holder.addToCart.setOnClickListener {
+            holder.addToCart.playAnimation()
+
+        }
+
     }
 
-    fun setData(food: ArrayList<Pair<String, Food>>?) {
+
+    fun setData(food: ArrayList<Pair<String, Food>>?, resKey: String) {
         this.food = food!!
+        this.resKey = resKey
         notifyDataSetChanged()
     }
 
@@ -56,5 +68,8 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
         var rating = view.rating_food as RatingBar
         var price = view.price_food as TextView
         var picture = view.picture_food as ImageView
+        var addToCart = view.add_to_cart as LottieAnimationView
     }
+
+
 }

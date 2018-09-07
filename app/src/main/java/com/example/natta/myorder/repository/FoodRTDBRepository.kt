@@ -11,13 +11,13 @@ import com.google.firebase.database.ValueEventListener
 class FoodRTDBRepository {
     private var mRootRef = FirebaseDatabase.getInstance().reference
     private var mFood = MutableLiveData<ArrayList<Pair<String, Food>>>()
-    private var listType = MutableLiveData<ArrayList<Pair<String,String>>>()
+    private var listType = MutableLiveData<ArrayList<String>>()
     private var typeValue = MutableLiveData<List<String>>()
     private val type = MutableLiveData<String>()
 
-    fun getFoodSize(FID : String){
+    fun getFoodSize(FID: String) {
         val mFoodRef = mRootRef.child("foodSize").child(FID)
-        mFoodRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        mFoodRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
             }
 
@@ -27,13 +27,17 @@ class FoodRTDBRepository {
         })
     }
 
-    fun getMenuType(resID: String): MutableLiveData<ArrayList<Pair<String, String>>> {
+    fun addOrderTemp(){
+        val temp = mRootRef.child("temp/userID/select")
+    }
+
+    fun getMenuType(resID: String): MutableLiveData<ArrayList<String>> {
         val foodList = getFood(resID)
-        foodList?.observeForever {
-            val type = arrayListOf<Pair<String, String>>()
-            it?.forEach {
+        foodList?.observeForever { food ->
+            val type = arrayListOf<String>()
+            food?.forEach {
                 if (checkType(type, it.second.type)) {
-                    type.add(Pair(it.first,it.second.type!!))
+                    type.add(it.second.type!!)
                     Log.d("TypeFood", it.second.type)
                 }
             }
@@ -44,9 +48,9 @@ class FoodRTDBRepository {
     }
 
 
-    private fun checkType(type: ArrayList<Pair<String, String>>, type1: String?): Boolean {
+    private fun checkType(type: ArrayList<String>, type1: String?): Boolean {
         type.forEach {
-            if (it.first == type1) {
+            if (it == type1) {
                 return false
             }
         }
@@ -77,5 +81,6 @@ class FoodRTDBRepository {
 
 
     }
+
 
 }
