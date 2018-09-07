@@ -3,16 +3,16 @@ package com.example.natta.myorder.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
+import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.data.Select
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class FoodDetailViewModel : ViewModel() {
     private var mRootRef = FirebaseDatabase.getInstance().reference
-
-    private var amount: Int = 2
+    private var mAuth = FirebaseAuth.getInstance()
+    private var food = Food()
+    private var amount: Int = 1
 
     private var mFoodSize = MutableLiveData<ArrayList<Pair<String, String>>>()
     private var mFoodType = MutableLiveData<ArrayList<Pair<String, String>>>()
@@ -22,15 +22,20 @@ class FoodDetailViewModel : ViewModel() {
     private var positionFoodSize: Int = 0
 
 
-    fun addOrderFood() {
-        val foodRef = mRootRef.child("temp/userID/select/$resKey-$foodKey")
+    fun addOrderFood(total: Double = 0.0) {
+        val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${System.currentTimeMillis()}")
         if (positionFoodType != -1 && positionFoodSize != -1) {
 
             val food = Select(amount,
                     foodKey,
                     mFoodSize.value!![positionFoodSize].first,
                     mFoodType.value!![positionFoodType].first,
-                    resKey)
+                    resKey,
+                    food.foodName,
+                    mFoodType.value!![positionFoodType].second,
+                    mFoodSize.value!![positionFoodSize].second,
+                    total,
+                    food.picture)
 
             foodRef.setValue(food)
         } else if (positionFoodSize == -1) {
@@ -48,9 +53,10 @@ class FoodDetailViewModel : ViewModel() {
         return amount
     }
 
-    fun setResFoodKey(resKey: String, foodKey: String) {
+    fun setResFoodKey(resKey: String, foodKey: String, food: Food) {
         this.resKey = resKey
         this.foodKey = foodKey
+        this.food = food
 
 
     }
@@ -64,12 +70,18 @@ class FoodDetailViewModel : ViewModel() {
     }
 
     fun addAmount(): String {
-        if (checkAmount()) amount = ++amount
+        if (checkAmount()) {
+            if (amount != 99)
+                amount = ++amount
+        }
         return amount.toString()
     }
 
     fun removeAmount(): String {
-        if (checkAmount()) amount = --amount
+        if (checkAmount()) {
+            if (amount != 1)
+                amount = --amount
+        }
         return amount.toString()
     }
 

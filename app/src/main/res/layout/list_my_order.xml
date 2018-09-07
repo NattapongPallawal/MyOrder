@@ -9,45 +9,46 @@
     android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/picture_MO"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/common_google_signin_btn_icon_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/foodName_MO"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
         android:layout_marginStart="8dp"
         android:text="TextView"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView11"
-        app:layout_constraintTop_toTopOf="@+id/imageView11" />
+        app:layout_constraintStart_toEndOf="@+id/picture_MO"
+        app:layout_constraintTop_toTopOf="@+id/picture_MO" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/foodSize_MO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintStart_toStartOf="@+id/foodName_MO"
+        app:layout_constraintTop_toBottomOf="@+id/foodName_MO" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/price_MO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        app:layout_constraintStart_toStartOf="@+id/foodSize_MO"
+        app:layout_constraintTop_toBottomOf="@+id/foodSize_MO" />
 
     <ImageView
         android:id="@+id/addAmount_MO"

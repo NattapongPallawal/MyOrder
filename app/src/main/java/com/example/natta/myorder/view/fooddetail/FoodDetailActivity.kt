@@ -29,7 +29,7 @@ class FoodDetailActivity : AppCompatActivity() {
         key = intent.getStringExtra("foodKey")
         resKey = intent.getStringExtra("resKey")
         model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
-        model!!.setResFoodKey(resKey, key)
+        model!!.setResFoodKey(resKey, key,food)
         initView()
 
         model!!.getFoodSize().observe(this, Observer {
@@ -80,7 +80,7 @@ class FoodDetailActivity : AppCompatActivity() {
         }
         btn_confirm.setOnClickListener {
             try {
-                model!!.addOrderFood()
+                model!!.addOrderFood(50.0)
                 finish()
             }catch (e : IndexOutOfBoundsException){
                 Toast.makeText(applicationContext,"${e.message}",Toast.LENGTH_LONG).show()

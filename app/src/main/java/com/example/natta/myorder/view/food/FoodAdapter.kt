@@ -1,5 +1,6 @@
 package com.example.natta.myorder.view.food
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.CardView
@@ -31,10 +32,11 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         holder.name.text = food[position].second.foodName
         holder.rating.rating = food[position].second.rate!!.toFloat()
-        holder.price.text = food[position].second.price.toString()
+        holder.price.text = food[position].second.price.toString()+" ฿"
         Glide.with(context).load(food[position].second.picture).into(holder.picture)
 
 

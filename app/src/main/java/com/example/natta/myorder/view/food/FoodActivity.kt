@@ -59,7 +59,9 @@ class FoodActivity : AppCompatActivity() {
         if (item != null) {
             when (item.itemId) {
                 R.id.shopping_cart -> {
-                    startActivity(Intent(applicationContext, MyOrderActivity::class.java))
+                    val i = Intent(applicationContext, MyOrderActivity::class.java)
+                    i.putExtra("resKey",restaurant)
+                    startActivity(i)
                 }
             }
         }
