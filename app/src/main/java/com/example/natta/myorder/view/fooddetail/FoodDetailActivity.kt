@@ -9,6 +9,7 @@ import android.support.design.chip.ChipGroup
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Food
@@ -26,6 +27,9 @@ class FoodDetailActivity : AppCompatActivity() {
     private var resKey: String = ""
     private var select = Select()
     private var formFood: Boolean = true
+    private var chipIDType: Int = 0
+    private var chipIDSize: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +40,12 @@ class FoodDetailActivity : AppCompatActivity() {
         resKey = intent.getStringExtra("resKey")
         try {
             food = intent.getParcelableExtra("food")
-            model!!.setResFoodKey(resKey, key,food)
+            model!!.setResFoodKey(resKey, key, food)
             formFood = true
         } catch (e: IllegalStateException) {
             select = intent.getParcelableExtra("select")
             selectKey = intent.getStringExtra("selectKey")
             model!!.setResFoodKey(resKey, key, null, select.amount!!)
-
-            Toast.makeText(applicationContext, "${select.foodTypeID} :  $selectKey", Toast.LENGTH_LONG).show()
             formFood = false
 
         }
@@ -64,22 +66,41 @@ class FoodDetailActivity : AppCompatActivity() {
         model!!.getFoodType().observe(this, Observer {
             if (it != null) {
                 addChip(foodType, it)
+                if (it.isNotEmpty()) {
+                    showFoodType()
+                } else {
+                    hideFoodType()
+                }
             }
         })
 
         foodType.setOnCheckedChangeListener { group, checkedId ->
-            try {
-                model!!.setPositionFoodType(checkedId - 2)
-            } catch (e: IllegalStateException) {
-                Toast.makeText(applicationContext, "null", Toast.LENGTH_SHORT).show()
+            if (checkedId != -1) {
+                try {
+                    var t = findViewById<Chip>(checkedId)
+                    model!!.setPositionFoodType(checkedId - 2)
+                    chipIDType = checkedId
+                    Log.d("checkedId1", "$checkedId")
+                } catch (e: IllegalStateException) {
+                    findViewById<Chip>(chipIDType).isChecked = true
+                }
+            } else {
+                findViewById<Chip>(chipIDType).isChecked = true
             }
         }
         foodSize.setOnCheckedChangeListener { group, checkedId ->
-            try {
-                model!!.setPositionFoodSize(checkedId / 100 - 1)
-
-            } catch (e: IllegalStateException) {
-                Toast.makeText(applicationContext, "null", Toast.LENGTH_SHORT).show()
+            if (checkedId != -1) {
+                try {
+                    var t = findViewById<Chip>(checkedId)
+                    model!!.setPositionFoodSize(checkedId / 100 - 1)
+                    chipIDSize = checkedId
+                    Log.d("checkedId2", "$checkedId")
+                } catch (e: IllegalStateException) {
+                    findViewById<Chip>(chipIDSize).isChecked = true
+                }
+            } else {
+                Log.d("checkedId3", "$chipIDSize")
+                findViewById<Chip>(chipIDSize).isChecked = true
             }
         }
 
@@ -88,11 +109,24 @@ class FoodDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun showFoodType() {
+        textView_mat_FD.visibility = View.VISIBLE
+        foodType.visibility = View.VISIBLE
+        div_mat_FD.visibility = View.VISIBLE
+    }
+
+    private fun hideFoodType() {
+        textView_mat_FD.visibility = View.GONE
+        foodType.visibility = View.GONE
+        div_mat_FD.visibility = View.GONE
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun initView() {
         Picasso.get().load(food.picture).into(pic_FD)
         foodName_FD.text = food.foodName
         rating_FD.rating = food.rate!!.toFloat()
-        price_FD.text = food.price.toString()
+        price_FD.text = food.price.toString() + " ฿"
 
         amount_FD.text = model!!.getAmount().toString()
 
@@ -105,7 +139,7 @@ class FoodDetailActivity : AppCompatActivity() {
         }
         btn_confirm.setOnClickListener {
             try {
-                model!!.addOrderFood(food.price!!,formFood,selectKey)
+                model!!.addOrderFood(food.price!!, formFood, selectKey)
                 finish()
             } catch (e: IndexOutOfBoundsException) {
                 Toast.makeText(applicationContext, "${e.message}", Toast.LENGTH_LONG).show()
@@ -169,9 +203,9 @@ class FoodDetailActivity : AppCompatActivity() {
                     val c = findViewById<Chip>(chipID)
                     c.isChecked = true
                 }
+            } else {
+
             }
         }
-
-
     }
 }

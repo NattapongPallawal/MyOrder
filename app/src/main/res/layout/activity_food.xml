@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,56 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:singleLine="true"
             app:singleSelection="true">
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="hhsdhkjvkhh" />
-
 
         </android.support.design.chip.ChipGroup>
 

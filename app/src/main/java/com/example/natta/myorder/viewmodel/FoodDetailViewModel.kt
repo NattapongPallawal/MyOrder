@@ -33,28 +33,36 @@ class FoodDetailViewModel : ViewModel() {
             mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$selectKey")
         }
 
-        if (positionFoodType != -1 && positionFoodSize != -1) {
+        when {
+            mFoodType.value!!.isNotEmpty() -> {
+                val food = Select(amount,
+                        foodKey,
+                        mFoodSize.value!![positionFoodSize].first,
+                        mFoodType.value!![positionFoodType].first,
+                        resKey,
+                        food.foodName,
+                        mFoodType.value!![positionFoodType].second,
+                        mFoodSize.value!![positionFoodSize].second,
+                        total,
+                        food.picture)
 
-            val food = Select(amount,
-                    foodKey,
-                    mFoodSize.value!![positionFoodSize].first,
-                    mFoodType.value!![positionFoodType].first,
-                    resKey,
-                    food.foodName,
-                    mFoodType.value!![positionFoodType].second,
-                    mFoodSize.value!![positionFoodSize].second,
-                    total,
-                    food.picture)
+                foodRef.setValue(food)
 
-            foodRef.setValue(food)
+            }
+            else -> {
+                val food = Select(amount,
+                        foodKey,
+                        mFoodSize.value!![positionFoodSize].first,
+                        null,
+                        resKey,
+                        food.foodName,
+                        null,
+                        mFoodSize.value!![positionFoodSize].second,
+                        total,
+                        food.picture)
 
-        } else if (positionFoodSize == -1) {
-            throw  IndexOutOfBoundsException("กรุณาเลือก ขนาดอาหาร")
-        } else if (positionFoodType == -1) {
-            throw  IndexOutOfBoundsException("กรุณาเลือก ประเภทอาหาร")
-        } else {
-            throw  IndexOutOfBoundsException("ERROR")
-
+                foodRef.setValue(food)
+            }
         }
 
     }

@@ -44,7 +44,11 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyOrderViewHolder, position: Int) {
         var amount: Int = myOrder[position].second.amount!!.toInt()
-        holder.foodName.text = myOrder[position].second.foodName.toString()
+        if (!myOrder[position].second.foodTypeName.isNullOrEmpty()) {
+            holder.foodName.text = myOrder[position].second.foodName.toString() + " " + myOrder[position].second.foodTypeName.toString()
+        } else {
+            holder.foodName.text = myOrder[position].second.foodName.toString()
+        }
         holder.foodSize.text = myOrder[position].second.foodSizeName.toString()
         holder.amount.text = myOrder[position].second.amount.toString()
         holder.price.text = myOrder[position].second.price.toString() + " ฿"
@@ -65,15 +69,16 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
 
         holder.item.setOnClickListener {
-            val i = Intent(context.applicationContext,FoodDetailActivity::class.java)
-            i.putExtra("foodKey",myOrder[position].second.foodID)
-            i.putExtra("resKey",myOrder[position].second.resID)
-            i.putExtra("select",myOrder[position].second)
-            i.putExtra("selectKey",myOrder[position].first)
+            val i = Intent(context.applicationContext, FoodDetailActivity::class.java)
+            i.putExtra("foodKey", myOrder[position].second.foodID)
+            i.putExtra("resKey", myOrder[position].second.resID)
+            i.putExtra("select", myOrder[position].second)
+            i.putExtra("selectKey", myOrder[position].first)
             context.startActivity(i)
         }
 
     }
+
     fun removeAt(position: Int) {
         val key = myOrder[position].first
         myOrder.removeAt(position)
@@ -134,7 +139,8 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
         var item = view.item_food_MO as ConstraintLayout
 
     }
-    inner class Delay(var key: String): AsyncTask<Void,Void,Void>(){
+
+    inner class Delay(var key: String) : AsyncTask<Void, Void, Void>() {
         override fun doInBackground(vararg p0: Void?): Void? {
             Thread.sleep(500)
             return null

@@ -36,5 +36,12 @@ class MyOrderViewModel :ViewModel() {
         })
         return myOrder
     }
+    fun deleteSelectFoodAll(resID : String) {
+        myOrder.value!!.forEach {
+            val orderRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${it.first}")
+            orderRef.removeValue()
+        }
 
+
+    }
 }

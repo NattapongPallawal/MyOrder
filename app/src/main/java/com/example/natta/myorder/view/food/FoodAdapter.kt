@@ -3,6 +3,7 @@ package com.example.natta.myorder.view.food
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.list_food.view.*
 class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     private var food= arrayListOf<Pair<String, Food>>()
     private var resKey: String = ""
+    private lateinit var onItemClickListener : OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_food, parent, false)
@@ -30,6 +32,9 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
     override fun getItemCount(): Int {
         return food.size
 
+    }
+    fun setOnItemClickListener(l : OnItemClickListener){
+        this.onItemClickListener = l
     }
 
     @SuppressLint("SetTextI18n")
@@ -51,7 +56,7 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
         }
 
         holder.addToCart.setOnClickListener {
-            holder.addToCart.playAnimation()
+            onItemClickListener.onItemClick(position)
 
         }
 
@@ -65,12 +70,17 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
     }
 
     inner class FoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+
         var cardFood = view.cardFood as CardView
         var name = view.foodName_food as TextView
         var rating = view.rating_food as RatingBar
         var price = view.price_food as TextView
         var picture = view.picture_food as ImageView
-        var addToCart = view.add_to_cart as LottieAnimationView
+        var addToCart = view.add_to_cart as ImageView
+    }
+    interface OnItemClickListener{
+       fun onItemClick(position : Int)
     }
 
 

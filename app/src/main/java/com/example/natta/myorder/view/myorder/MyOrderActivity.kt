@@ -4,13 +4,18 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Select
 import com.example.natta.myorder.view.payment.PaymentActivity
 import com.example.natta.myorder.viewmodel.MyOrderViewModel
 import kotlinx.android.synthetic.main.activity_my_order.*
@@ -18,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_my_order.*
 class MyOrderActivity : AppCompatActivity() {
     private var model = MyOrderViewModel()
     private var resKey: String = ""
+    private var myOrder = arrayListOf<Pair<String, Select>>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +51,7 @@ class MyOrderActivity : AppCompatActivity() {
 
         model.getMyOrder(resKey).observe(this, Observer {
             if (it != null) {
+                myOrder = it
                 adapter.setData(it)
                 item_food_MO.text = "จำนวน ${it.size} รายการ"
 
@@ -64,5 +71,38 @@ class MyOrderActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_my_oeder, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item != null) {
+            when (item.itemId) {
+                R.id.deleteFoodAll -> {
+                    if (myOrder.isNotEmpty()) {
+                        val builder = AlertDialog.Builder(this@MyOrderActivity)
+                        builder.setTitle("ลบทั้งหมด")
+                        builder.setMessage("คุณต้องการที่จะลบรายการอาหารที่คุณเลือกทั้งหมดหรือไม่?")
+                        builder.setPositiveButton("ใช่") { _, _ ->
+                            model.deleteSelectFoodAll(resKey)
+                            Snackbar.make(my_order_layout, "ลบรายการอาหารที่คุณเลือกทั้งหมดเรียบร้อยแล้ว", Snackbar.LENGTH_LONG).show()
+                        }
+                        builder.setNegativeButton("ไม่ใช่") { dialog, _ -> dialog.dismiss() }
+
+                        val dialog = builder.create()
+                        dialog.show()
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
+                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED)
+                    }else{
+                        Snackbar.make(my_order_layout, "ไม่มีรายการอาหารที่จะลบ", Snackbar.LENGTH_LONG).show()
+                    }
+
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

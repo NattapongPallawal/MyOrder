@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.chip.Chip
 import android.support.design.chip.ChipGroup
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Gravity
@@ -19,31 +21,37 @@ import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.view.myorder.MyOrderActivity
 import com.example.natta.myorder.viewmodel.FoodViewModel
 import kotlinx.android.synthetic.main.activity_food.*
+import java.util.*
 
 @Suppress("DEPRECATION")
-class FoodActivity : AppCompatActivity() {
+class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener {
+
     private var restaurant = ""
     private var type = arrayListOf<String>()
     private var food = arrayListOf<Pair<String, Food>>()
     private var selectType = ""
     private lateinit var adapter: FoodAdapter
     private var chipID: Int = 0
+    private var model = FoodViewModel()
+    private var selectFood = arrayListOf<Pair<String, Food>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
-        val model = ViewModelProviders.of(this).get(FoodViewModel::class.java)
+        model = ViewModelProviders.of(this).get(FoodViewModel::class.java)
         try {
             restaurant = intent.getStringExtra("resKey")
-
+            model.setResKey(restaurant)
         } catch (e: IllegalStateException) {
             Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
         }
 
         adapter = FoodAdapter(applicationContext)
+        adapter.setOnItemClickListener(this)
         setUpFood(adapter)
+
 
         model.getMenuType(restaurant).observe(this, Observer {
             if (it != null) {
@@ -69,10 +77,23 @@ class FoodActivity : AppCompatActivity() {
                 updateDataRecycleView()
             }
         })
+
     }
 
+    override fun onItemClick(position: Int) {
+        val task = AddToCart(100, position)
+        model.setSelectFood(selectFood)
+        model.getFoodSize(position)
+        model.getFoodType(position)
+        task.execute()
+        Snackbar.make(menu_layout, "เพิ่ม ${selectFood[position].second.foodName} ลงในออเดอร์ของคุณเรียบร้อยแล้ว", Snackbar.LENGTH_SHORT).show()
+
+
+    }
+
+
     private fun updateDataRecycleView() {
-        val selectFood = arrayListOf<Pair<String, Food>>()
+        selectFood = arrayListOf()
         food.forEach {
             if (selectType == it.second.type) {
                 selectFood.add(it)
@@ -138,7 +159,25 @@ class FoodActivity : AppCompatActivity() {
             val l = findViewById<Chip>(1 + 1)
             l.isChecked = true
         }
+    }
 
+    internal inner class AddToCart(private var delay: Long, private var position: Int) : AsyncTask<Void, Void, Void>() {
+        override fun doInBackground(vararg p0: Void?): Void? {
+            for (i in 1..delay) {
+                Thread.sleep(1)
+                if (isCancelled) {
+                    break
+                }
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            super.onPostExecute(result)
+            model.addOrderFood(position)
+
+        }
     }
 }
 

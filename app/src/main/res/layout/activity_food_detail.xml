@@ -74,7 +74,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rating_FD" />
 
             <View
-                android:id="@+id/divider4"
+                android:id="@+id/div_mat_FD"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
@@ -108,7 +108,7 @@
 
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/textView_mat_FD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -140,7 +140,7 @@
                 android:layout_marginTop="8dp"
                 android:text="ขนาด"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider4" />
+                app:layout_constraintTop_toBottomOf="@+id/div_mat_FD" />
 
             <android.support.design.chip.ChipGroup
                 android:id="@+id/foodType"
@@ -151,8 +151,8 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
+                app:layout_constraintStart_toStartOf="@+id/textView_mat_FD"
+                app:layout_constraintTop_toBottomOf="@+id/textView_mat_FD"
                 app:singleSelection="true">
 
 
