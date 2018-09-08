@@ -22,7 +22,6 @@ class MyOrderViewModel :ViewModel() {
             override fun onDataChange(p0: DataSnapshot) {
                 val temp = arrayListOf<Pair<String,Select>>()
                 p0.children.forEach {
-                    Log.d("getMyorder", it.getValue(Select::class.java)?.foodID.toString())
                     temp.add(Pair(it.key.toString(), it.getValue(Select::class.java)!!))
                 }
              myOrder.value = temp
@@ -41,7 +40,5 @@ class MyOrderViewModel :ViewModel() {
             val orderRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${it.first}")
             orderRef.removeValue()
         }
-
-
     }
 }

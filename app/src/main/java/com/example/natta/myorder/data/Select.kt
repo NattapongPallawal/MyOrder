@@ -13,7 +13,8 @@ class Select constructor(
         var foodTypeName: String? = null,
         var foodSizeName: String? = null,
         var price: Double? = null,
-        var picture: String? = null
+        var picture: String? = null,
+        var table: String? = null
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -26,6 +27,7 @@ class Select constructor(
             parcel.readString(),
             parcel.readString(),
             parcel.readValue(Double::class.java.classLoader) as? Double,
+            parcel.readString(),
             parcel.readString()) {
     }
 
@@ -40,6 +42,7 @@ class Select constructor(
         parcel.writeString(foodSizeName)
         parcel.writeValue(price)
         parcel.writeString(picture)
+        parcel.writeString(table)
     }
 
     override fun describeContents(): Int {

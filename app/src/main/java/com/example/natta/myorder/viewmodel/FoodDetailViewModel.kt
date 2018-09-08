@@ -27,43 +27,75 @@ class FoodDetailViewModel : ViewModel() {
 
 
     fun addOrderFood(total: Double = 0.0, formFood: Boolean, selectKey: String) {
-        val foodRef: DatabaseReference = if (formFood) {
-            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${System.currentTimeMillis()}")
+
+        if (formFood) {
+            val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select")
+            when {
+                mFoodType.value!!.isNotEmpty() -> {
+                    val food = Select(amount,
+                            foodKey,
+                            mFoodSize.value!![positionFoodSize].first,
+                            mFoodType.value!![positionFoodType].first,
+                            resKey,
+                            food.foodName,
+                            mFoodType.value!![positionFoodType].second,
+                            mFoodSize.value!![positionFoodSize].second,
+                            total,
+                            food.picture)
+
+                    foodRef.push().setValue(food)
+
+                }
+                else -> {
+                    val food = Select(amount,
+                            foodKey,
+                            mFoodSize.value!![positionFoodSize].first,
+                            null,
+                            resKey,
+                            food.foodName,
+                            null,
+                            mFoodSize.value!![positionFoodSize].second,
+                            total,
+                            food.picture)
+
+                    foodRef.push().setValue(food)
+                }
+            }
         } else {
-            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$selectKey")
+            val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$selectKey")
+            when {
+                mFoodType.value!!.isNotEmpty() -> {
+                    val food = Select(amount,
+                            foodKey,
+                            mFoodSize.value!![positionFoodSize].first,
+                            mFoodType.value!![positionFoodType].first,
+                            resKey,
+                            food.foodName,
+                            mFoodType.value!![positionFoodType].second,
+                            mFoodSize.value!![positionFoodSize].second,
+                            total,
+                            food.picture)
+
+                    foodRef.setValue(food)
+
+                }
+                else -> {
+                    val food = Select(amount,
+                            foodKey,
+                            mFoodSize.value!![positionFoodSize].first,
+                            null,
+                            resKey,
+                            food.foodName,
+                            null,
+                            mFoodSize.value!![positionFoodSize].second,
+                            total,
+                            food.picture)
+
+                    foodRef.setValue(food)
+                }
+            }
         }
 
-        when {
-            mFoodType.value!!.isNotEmpty() -> {
-                val food = Select(amount,
-                        foodKey,
-                        mFoodSize.value!![positionFoodSize].first,
-                        mFoodType.value!![positionFoodType].first,
-                        resKey,
-                        food.foodName,
-                        mFoodType.value!![positionFoodType].second,
-                        mFoodSize.value!![positionFoodSize].second,
-                        total,
-                        food.picture)
-
-                foodRef.setValue(food)
-
-            }
-            else -> {
-                val food = Select(amount,
-                        foodKey,
-                        mFoodSize.value!![positionFoodSize].first,
-                        null,
-                        resKey,
-                        food.foodName,
-                        null,
-                        mFoodSize.value!![positionFoodSize].second,
-                        total,
-                        food.picture)
-
-                foodRef.setValue(food)
-            }
-        }
 
     }
 

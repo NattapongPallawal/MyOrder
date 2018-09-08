@@ -63,7 +63,9 @@ class MyOrderActivity : AppCompatActivity() {
         })
 
         btn_payment_MO.setOnClickListener {
-            startActivity(Intent(applicationContext, PaymentActivity::class.java))
+            val i = Intent(applicationContext, PaymentActivity::class.java)
+            i.putExtra("resKey",resKey)
+            startActivity(i)
         }
     }
 

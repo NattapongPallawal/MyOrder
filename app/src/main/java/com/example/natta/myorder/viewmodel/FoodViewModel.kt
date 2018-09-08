@@ -46,7 +46,7 @@ class FoodViewModel : ViewModel() {
 
     fun addOrderFood(position: Int) {
         foodKey = selectFood[position].first
-        val selectRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${System.currentTimeMillis()}")
+        val selectRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select")
         val food = Select(1,
                 foodKey,
                 mFoodSize.value!!.first,
@@ -57,7 +57,7 @@ class FoodViewModel : ViewModel() {
                 mFoodSize.value!!.second,
                 selectFood[position].second.price,
                 selectFood[position].second.picture)
-        selectRef.setValue(food)
+        selectRef.push().setValue(food)
     }
 
     fun getFoodSize(position: Int) {
