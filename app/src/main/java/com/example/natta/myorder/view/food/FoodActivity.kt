@@ -15,13 +15,20 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
+import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.view.myorder.MyOrderActivity
 import com.example.natta.myorder.viewmodel.FoodViewModel
 import kotlinx.android.synthetic.main.activity_food.*
 
 @Suppress("DEPRECATION")
 class FoodActivity : AppCompatActivity() {
-    var restaurant = ""
+    private var restaurant = ""
+    private var type = arrayListOf<String>()
+    private var food = arrayListOf<Pair<String, Food>>()
+    private var selectType = ""
+    private lateinit var adapter: FoodAdapter
+    private var chipID: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
@@ -34,19 +41,44 @@ class FoodActivity : AppCompatActivity() {
         } catch (e: IllegalStateException) {
             Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
         }
-        val adapter = FoodAdapter(applicationContext)
+
+        adapter = FoodAdapter(applicationContext)
         setUpFood(adapter)
 
-        model.getFood(restaurant)?.observe(this, Observer {
-            if (it != null) {
-                adapter.setData(it, restaurant)
-            }
-        })
         model.getMenuType(restaurant).observe(this, Observer {
             if (it != null) {
+                this.type = it
                 addChip(it)
             }
         })
+
+        menuType.setOnCheckedChangeListener { group, checkedId ->
+            try {
+                selectType = findViewById<Chip>(checkedId).chipText.toString()
+                updateDataRecycleView()
+                chipID = checkedId
+            } catch (e: IllegalStateException) {
+                findViewById<Chip>(chipID).isChecked = true
+            }
+
+        }
+
+        model.getFood(restaurant)?.observe(this, Observer {
+            if (it != null) {
+                food = it
+                updateDataRecycleView()
+            }
+        })
+    }
+
+    private fun updateDataRecycleView() {
+        val selectFood = arrayListOf<Pair<String, Food>>()
+        food.forEach {
+            if (selectType == it.second.type) {
+                selectFood.add(it)
+            }
+        }
+        adapter.setData(selectFood, restaurant)
     }
 
 
@@ -60,7 +92,7 @@ class FoodActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.shopping_cart -> {
                     val i = Intent(applicationContext, MyOrderActivity::class.java)
-                    i.putExtra("resKey",restaurant)
+                    i.putExtra("resKey", restaurant)
                     startActivity(i)
                 }
             }
@@ -102,8 +134,11 @@ class FoodActivity : AppCompatActivity() {
             chip.isCheckedIconEnabled = true
             view.addView(chip)
         }
-        val l = findViewById<Chip>(1 + 1)
-        l.isChecked = true
+        if (type.isNotEmpty()) {
+            val l = findViewById<Chip>(1 + 1)
+            l.isChecked = true
+        }
+
     }
 }
 
