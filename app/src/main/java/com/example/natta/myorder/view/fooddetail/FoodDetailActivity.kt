@@ -12,6 +12,7 @@ import android.view.Gravity
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Food
+import com.example.natta.myorder.data.Select
 import com.example.natta.myorder.viewmodel.FoodDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_food_detail.*
@@ -21,16 +22,38 @@ class FoodDetailActivity : AppCompatActivity() {
     private var model: FoodDetailViewModel? = null
     private var food = Food()
     private var key = ""
+    private var selectKey = ""
     private var resKey: String = ""
+    private var select = Select()
+    private var formFood: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
-        food = intent.getParcelableExtra("food")
+
+        model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
         key = intent.getStringExtra("foodKey")
         resKey = intent.getStringExtra("resKey")
-        model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
-        model!!.setResFoodKey(resKey, key,food)
-        initView()
+        try {
+            food = intent.getParcelableExtra("food")
+            model!!.setResFoodKey(resKey, key,food)
+            formFood = true
+        } catch (e: IllegalStateException) {
+            select = intent.getParcelableExtra("select")
+            selectKey = intent.getStringExtra("selectKey")
+            model!!.setResFoodKey(resKey, key, null, select.amount!!)
+
+            Toast.makeText(applicationContext, "${select.foodTypeID} :  $selectKey", Toast.LENGTH_LONG).show()
+            formFood = false
+
+        }
+
+        model!!.getReady().observe(this, Observer {
+            if (it!!) {
+                food = model!!.getFood()
+                initView()
+            }
+        })
 
         model!!.getFoodSize().observe(this, Observer {
             if (it != null) {
@@ -71,6 +94,8 @@ class FoodDetailActivity : AppCompatActivity() {
         rating_FD.rating = food.rate!!.toFloat()
         price_FD.text = food.price.toString()
 
+        amount_FD.text = model!!.getAmount().toString()
+
         removeAmount_FD.setOnClickListener {
             amount_FD.text = model!!.removeAmount()
         }
@@ -80,10 +105,10 @@ class FoodDetailActivity : AppCompatActivity() {
         }
         btn_confirm.setOnClickListener {
             try {
-                model!!.addOrderFood(50.0)
+                model!!.addOrderFood(food.price!!,formFood,selectKey)
                 finish()
-            }catch (e : IndexOutOfBoundsException){
-                Toast.makeText(applicationContext,"${e.message}",Toast.LENGTH_LONG).show()
+            } catch (e: IndexOutOfBoundsException) {
+                Toast.makeText(applicationContext, "${e.message}", Toast.LENGTH_LONG).show()
             }
 
         }
@@ -96,6 +121,8 @@ class FoodDetailActivity : AppCompatActivity() {
     @SuppressLint("PrivateResource")
     private fun addChip(view: ChipGroup, data: ArrayList<Pair<String, String>>?) {
         view.removeAllViews()
+        var change = true
+        var chipID = 0
         if (data != null) {
             for (i in 1..data.size) {
                 Log.d("addChip", i.toString())
@@ -104,10 +131,24 @@ class FoodDetailActivity : AppCompatActivity() {
                     R.id.foodType -> {
                         chip.id = i + 1
                         chip.chipText = data[i - 1].second
+                        if (data[i - 1].first == select.foodTypeID) {
+                            chipID = i + 1
+                            change = false
+                        }
+                        if (change) {
+                            chipID = 2
+                        }
                     }
                     R.id.foodSize -> {
                         chip.id = i * 100 + 1
                         chip.chipText = data[i - 1].second
+                        if (data[i - 1].first == select.foodSizeID) {
+                            chipID = i * 100 + 1
+                            change = false
+                        }
+                        if (change) {
+                            chipID = 1 * 100 + 1
+                        }
                     }
                 }
                 chip.setPadding(5, 5, 5, 5)
@@ -122,10 +163,10 @@ class FoodDetailActivity : AppCompatActivity() {
         if (data != null) {
             if (data.isNotEmpty()) {
                 if (view.id == R.id.foodSize) {
-                    val c = findViewById<Chip>(1 * 100 + 1)
+                    val c = findViewById<Chip>(chipID)
                     c.isChecked = true
                 } else {
-                    val c = findViewById<Chip>(1 + 1)
+                    val c = findViewById<Chip>(chipID)
                     c.isChecked = true
                 }
             }

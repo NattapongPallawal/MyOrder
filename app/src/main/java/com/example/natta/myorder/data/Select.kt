@@ -1,5 +1,8 @@
 package com.example.natta.myorder.data
 
+import android.os.Parcel
+import android.os.Parcelable
+
 class Select constructor(
         var amount: Int? = 1,
         var foodID: String? = null,
@@ -12,4 +15,44 @@ class Select constructor(
         var price: Double? = null,
         var picture: String? = null
 
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readValue(Int::class.java.classLoader) as? Int,
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readValue(Double::class.java.classLoader) as? Double,
+            parcel.readString()) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(amount)
+        parcel.writeString(foodID)
+        parcel.writeString(foodSizeID)
+        parcel.writeString(foodTypeID)
+        parcel.writeString(resID)
+        parcel.writeString(foodName)
+        parcel.writeString(foodTypeName)
+        parcel.writeString(foodSizeName)
+        parcel.writeValue(price)
+        parcel.writeString(picture)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Select> {
+        override fun createFromParcel(parcel: Parcel): Select {
+            return Select(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Select?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

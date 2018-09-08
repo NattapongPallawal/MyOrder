@@ -3,7 +3,9 @@ package com.example.natta.myorder.view.myorder
 import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Select
+import com.example.natta.myorder.view.fooddetail.FoodDetailActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
@@ -48,7 +51,7 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
         Picasso.get().load(myOrder[position].second.picture).into(holder.picture)
 //        context.applicationInfo.a
-        t += myOrder[position].second.price!! * myOrder[position].second.amount!!
+
 
         holder.add.setOnClickListener {
             amount = addAmount(amount)
@@ -60,9 +63,16 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
         }
 
-        if (myOrder.size == position + 1) {
-            total.value = t
+
+        holder.item.setOnClickListener {
+            val i = Intent(context.applicationContext,FoodDetailActivity::class.java)
+            i.putExtra("foodKey",myOrder[position].second.foodID)
+            i.putExtra("resKey",myOrder[position].second.resID)
+            i.putExtra("select",myOrder[position].second)
+            i.putExtra("selectKey",myOrder[position].first)
+            context.startActivity(i)
         }
+
     }
     fun removeAt(position: Int) {
         val key = myOrder[position].first
@@ -99,8 +109,12 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
     fun setData(myOrder: ArrayList<Pair<String, Select>>) {
         this.t = 0.0
-        this.total.value = 0.0
         this.myOrder = myOrder
+
+        this.myOrder.forEach {
+            t += it.second.amount!! * it.second.price!!
+        }
+        this.total.value = t
         notifyDataSetChanged()
     }
 
@@ -117,11 +131,12 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
         var picture = view.picture_MO as ImageView
         var add = view.addAmount_MO as ImageView
         var remove = view.removeAmount_MO as ImageView
+        var item = view.item_food_MO as ConstraintLayout
 
     }
     inner class Delay(var key: String): AsyncTask<Void,Void,Void>(){
         override fun doInBackground(vararg p0: Void?): Void? {
-            Thread.sleep(1000)
+            Thread.sleep(500)
             return null
         }
 

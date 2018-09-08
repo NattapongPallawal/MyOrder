@@ -13,7 +13,7 @@ class FoodDetailViewModel : ViewModel() {
     private var mAuth = FirebaseAuth.getInstance()
     private var food = Food()
     private var amount: Int = 1
-
+    private var ready = MutableLiveData<Boolean>()
     private var mFoodSize = MutableLiveData<ArrayList<Pair<String, String>>>()
     private var mFoodType = MutableLiveData<ArrayList<Pair<String, String>>>()
     private var resKey: String = ""
@@ -21,9 +21,18 @@ class FoodDetailViewModel : ViewModel() {
     private var positionFoodType: Int = 0
     private var positionFoodSize: Int = 0
 
+    init {
+        ready.value = false
+    }
 
-    fun addOrderFood(total: Double = 0.0) {
-        val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${System.currentTimeMillis()}")
+
+    fun addOrderFood(total: Double = 0.0, formFood: Boolean, selectKey: String) {
+        val foodRef: DatabaseReference = if (formFood) {
+            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${System.currentTimeMillis()}")
+        } else {
+            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$selectKey")
+        }
+
         if (positionFoodType != -1 && positionFoodSize != -1) {
 
             val food = Select(amount,
@@ -38,6 +47,7 @@ class FoodDetailViewModel : ViewModel() {
                     food.picture)
 
             foodRef.setValue(food)
+
         } else if (positionFoodSize == -1) {
             throw  IndexOutOfBoundsException("กรุณาเลือก ขนาดอาหาร")
         } else if (positionFoodType == -1) {
@@ -53,13 +63,44 @@ class FoodDetailViewModel : ViewModel() {
         return amount
     }
 
-    fun setResFoodKey(resKey: String, foodKey: String, food: Food) {
+    fun getFood(): Food {
+        return food
+    }
+
+    fun getReady(): MutableLiveData<Boolean> {
+
+        return ready
+    }
+
+    fun setResFoodKey(resKey: String, foodKey: String, food: Food?, amount: Int = 1) {
         this.resKey = resKey
         this.foodKey = foodKey
-        this.food = food
+        this.amount = amount
+        if (food != null) {
+            this.food = food
+            ready.value = true
+        } else {
+            getOneFood()
+        }
 
 
     }
+
+    private fun getOneFood() {
+        val foodRef = mRootRef.child("menu/$resKey/$foodKey")
+        foodRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                food = p0.getValue(Food::class.java)!!
+                ready.value = true
+            }
+
+        })
+    }
+
 
     fun setPositionFoodSize(positionFoodSize: Int) {
         this.positionFoodSize = positionFoodSize
