@@ -3,7 +3,6 @@ package com.example.natta.myorder.view.food
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -56,9 +55,11 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
         }
 
         holder.addToCart.setOnClickListener {
-            onItemClickListener.onItemClick(position)
+            onItemClickListener.onItemClick(position,holder.addAni,holder.addToCart)
 
         }
+
+
 
     }
 
@@ -78,9 +79,10 @@ class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodV
         var price = view.price_food as TextView
         var picture = view.picture_food as ImageView
         var addToCart = view.add_to_cart as ImageView
+        var addAni = view.addAnimation as LottieAnimationView
     }
     interface OnItemClickListener{
-       fun onItemClick(position : Int)
+       fun onItemClick(position: Int, addAni: LottieAnimationView, addToCart: ImageView)
     }
 
 

@@ -44,6 +44,21 @@
 
                 app:layout_constraintTop_toBottomOf="@+id/picture_food" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/addAnimation"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/picture_food"
+                app:lottie_autoPlay="false"
+                app:lottie_fileName="loading2.json"
+                app:lottie_loop="true" />
+
             <ImageView
                 android:id="@+id/picture_food"
                 android:layout_width="0dp"

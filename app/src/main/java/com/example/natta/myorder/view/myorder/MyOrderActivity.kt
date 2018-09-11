@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Select
 import com.example.natta.myorder.view.payment.PaymentActivity
@@ -38,6 +39,8 @@ class MyOrderActivity : AppCompatActivity() {
         val adapter = MyOrderAdapter(applicationContext)
         recyclerView_MO.adapter = adapter
         recyclerView_MO.layoutManager = LinearLayoutManager(applicationContext)
+        recyclerView_MO.setHasFixedSize(true)
+        recyclerView_MO.setItemViewCacheSize(20)
         val swipeHandler = object : SwipeToDeleteCallback(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView_MO.adapter as MyOrderAdapter
@@ -89,7 +92,7 @@ class MyOrderActivity : AppCompatActivity() {
                         builder.setTitle("ลบทั้งหมด")
                         builder.setMessage("คุณต้องการที่จะลบรายการอาหารที่คุณเลือกทั้งหมดหรือไม่?")
                         builder.setPositiveButton("ใช่") { _, _ ->
-                            model.deleteSelectFoodAll(resKey)
+                            model.DeleteSelectFoodAll(resKey).execute()
                             Snackbar.make(my_order_layout, "ลบรายการอาหารที่คุณเลือกทั้งหมดเรียบร้อยแล้ว", Snackbar.LENGTH_LONG).show()
                         }
                         builder.setNegativeButton("ไม่ใช่") { dialog, _ -> dialog.dismiss() }

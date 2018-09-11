@@ -59,11 +59,11 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
         holder.add.setOnClickListener {
             amount = addAmount(amount)
-            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${myOrder[position].first}/amount").setValue(amount)
+            mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select/${myOrder[position].first}/amount").setValue(amount)
         }
         holder.remove.setOnClickListener {
             amount = removeAmount(amount)
-            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/${myOrder[position].first}/amount").setValue(amount)
+            mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select/${myOrder[position].first}/amount").setValue(amount)
 
         }
 
@@ -74,6 +74,7 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
             i.putExtra("resKey", myOrder[position].second.resID)
             i.putExtra("select", myOrder[position].second)
             i.putExtra("selectKey", myOrder[position].first)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(i)
         }
 
@@ -148,7 +149,7 @@ class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
-            mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$key").setValue(null)
+            mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select/$key").setValue(null)
         }
 
     }

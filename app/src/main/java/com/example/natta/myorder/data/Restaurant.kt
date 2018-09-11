@@ -6,26 +6,27 @@ import javax.sql.StatementEvent
 
 
 @Suppress("UNREACHABLE_CODE")
-class Restaurant constructor(var restaurantName: String? = "",
-                             var picture: String? = "",
-                             var rating: Double? = 0.0,
-                             var owner: String? = "",
-                             var promtPayID: String? = "",
-                             var timeOpen: String? = "",
-                             var timeClose: String? = "",
-                             var time : RestaurantTime? = RestaurantTime(),
+class Restaurant constructor(var restaurantName: String? = null,
+                             var picture: String? = null,
+                             var rating: Double? = null,
+                             var owner: String? = null,
+                             var promtPayID: String? = null,
+                             var timeOpen: String? = null,
+                             var timeClose: String? = null,
+                             var time: RestaurantTime? = RestaurantTime(),
                              var address: Address? = Address(),
-                             var about: String? = "",
-                             var phoneNumber: String? = "") : Parcelable {
+                             var about: String? = null,
+                             var phoneNumber: String? = null) : Parcelable {
+    private var key: String? = ""
 
-    private var key : String? = ""
-
-    fun setKey(key : String){
+    fun setKey(key: String) {
         this.key = key
     }
+
     fun getKey(): String? {
         return this.key
     }
+
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),

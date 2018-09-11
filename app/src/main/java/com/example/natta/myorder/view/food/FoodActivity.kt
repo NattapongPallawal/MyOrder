@@ -15,7 +15,9 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.view.myorder.MyOrderActivity
@@ -24,7 +26,8 @@ import kotlinx.android.synthetic.main.activity_food.*
 import java.util.*
 
 @Suppress("DEPRECATION")
-class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener {
+class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener, FoodViewModel.AddOrderListener {
+
 
     private var restaurant = ""
     private var type = arrayListOf<String>()
@@ -41,6 +44,7 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener {
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
         model = ViewModelProviders.of(this).get(FoodViewModel::class.java)
+        model.setOnAddComplete(this)
         try {
             restaurant = intent.getStringExtra("resKey")
             model.setResKey(restaurant)
@@ -80,14 +84,32 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener {
 
     }
 
-    override fun onItemClick(position: Int) {
-        val task = AddToCart(100, position)
-        model.setSelectFood(selectFood)
-        model.getFoodSize(position)
-        model.getFoodType(position)
-        task.execute()
-        Snackbar.make(menu_layout, "เพิ่ม ${selectFood[position].second.foodName} ลงในออเดอร์ของคุณเรียบร้อยแล้ว", Snackbar.LENGTH_SHORT).show()
+    private var addAni: LottieAnimationView? = null
 
+    private var addToCart: ImageView? = null
+
+    override fun onItemClick(position: Int, addAni: LottieAnimationView, addToCart: ImageView) {
+        this.addAni = addAni
+        this.addToCart = addToCart
+        this.addToCart!!.visibility = View.GONE
+        model.setSelectFood(selectFood)
+        model.addOrderFood(position,addAni,addToCart)
+        this.addAni!!.pauseAnimation()
+        this.addAni!!.visibility = View.VISIBLE
+        this.addAni!!.setAnimation("loading2.json")
+        this.addAni!!.playAnimation()
+
+
+    }
+
+    override fun addComplete(food: String?, size: String, type: String?, price: Double?) {
+        Snackbar.make(menu_layout, "เพิ่ม $food${type
+                ?: ""} $size ราคา $price บาท ลงในออเดอร์ของคุณเรียบร้อยแล้ว", Snackbar.LENGTH_LONG).show()
+        this.addAni!!.pauseAnimation()
+        this.addAni!!.setAnimation("check_animation.json")
+        this.addAni!!.loop(false)
+        AddToCart(this.addAni!!, this.addToCart!!).execute()
+        this.addAni!!.playAnimation()
 
     }
 
@@ -161,21 +183,19 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener {
         }
     }
 
-    internal inner class AddToCart(private var delay: Long, private var position: Int) : AsyncTask<Void, Void, Void>() {
+    @SuppressLint("StaticFieldLeak")
+    internal inner class AddToCart(private var addAni: LottieAnimationView, private var addToCart: ImageView) : AsyncTask<Void, Void, Void>() {
         override fun doInBackground(vararg p0: Void?): Void? {
-            for (i in 1..delay) {
-                Thread.sleep(1)
-                if (isCancelled) {
-                    break
-                }
-            }
+
+            Thread.sleep(3000)
 
             return null
         }
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
-            model.addOrderFood(position)
+            this.addAni.visibility = View.GONE
+            this.addToCart.visibility = View.VISIBLE
 
         }
     }

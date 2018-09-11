@@ -30,34 +30,34 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-       val orderListener = object : ValueEventListener{
-           override fun onCancelled(p0: DatabaseError) {
-
-           }
-
-           override fun onDataChange(p0: DataSnapshot) {
-               holder.orderNum.text = p0.getValue(Order::class.java)!!.orderNumber.toString()
-           }
-
-       }
-        val resListener = object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                holder.res.text = p0.getValue(Restaurant::class.java)!!.restaurantName.toString()
-            }
-
-        }
-        val mResRef = mRootRef.child("restaurant").child(noti[position].restaurant)
-        val orderRef = mRootRef.child("order").child("cus-test1").child(noti[position].order)
-
-        mResRef.addValueEventListener(resListener)
-        orderRef.addValueEventListener(orderListener)
-        holder.message.text = noti[position].message
-        holder.time.text = noti[position].date
-        holder.date.text = noti[position].date
+//       val orderListener = object : ValueEventListener{
+//           override fun onCancelled(p0: DatabaseError) {
+//
+//           }
+//
+//           override fun onDataChange(p0: DataSnapshot) {
+//               holder.orderNum.text = p0.getValue(Order::class.java)!!.orderNumber.toString()
+//           }
+//
+//       }
+//        val resListener = object : ValueEventListener{
+//            override fun onCancelled(p0: DatabaseError) {
+//
+//            }
+//
+//            override fun onDataChange(p0: DataSnapshot) {
+//                holder.res.text = p0.getValue(Restaurant::class.java)!!.restaurantName.toString()
+//            }
+//
+//        }
+//        val mResRef = mRootRef.child("restaurant").child(noti[position].restaurant)
+//        val orderRef = mRootRef.child("order").child("cus-test1").child(noti[position].order)
+//
+//        mResRef.addValueEventListener(resListener)
+//        orderRef.addValueEventListener(orderListener)
+//        holder.message.text = noti[position].message
+//        holder.time.text = noti[position].date
+//        holder.date.text = noti[position].date
 
     }
 

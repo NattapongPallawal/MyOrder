@@ -29,7 +29,7 @@ class FoodDetailViewModel : ViewModel() {
     fun addOrderFood(total: Double = 0.0, formFood: Boolean, selectKey: String) {
 
         if (formFood) {
-            val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select")
+            val foodRef = mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select")
             when {
                 mFoodType.value!!.isNotEmpty() -> {
                     val food = Select(amount,
@@ -62,7 +62,7 @@ class FoodDetailViewModel : ViewModel() {
                 }
             }
         } else {
-            val foodRef = mRootRef.child("temp/${mAuth.currentUser!!.uid}/select/$selectKey")
+            val foodRef = mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select/$selectKey")
             when {
                 mFoodType.value!!.isNotEmpty() -> {
                     val food = Select(amount,
