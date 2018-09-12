@@ -45,7 +45,8 @@ class PaymentViewModel : ViewModel() {
                     "promtpay"
                 } else {
                     "cash"
-                }
+                },
+                restaurant.value!!.restaurantName
         ))
 
         { p0, p1 ->
