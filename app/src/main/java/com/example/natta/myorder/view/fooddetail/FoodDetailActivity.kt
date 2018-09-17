@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.chip.Chip
 import android.support.design.chip.ChipGroup
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
@@ -34,6 +35,12 @@ class FoodDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_detail)
+        setSupportActionBar(toolbar_FD)
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = "รายละเอียดเมนู"
+        }
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
 
         model = ViewModelProviders.of(this).get(FoodDetailViewModel::class.java)
         key = intent.getStringExtra("foodKey")
@@ -104,9 +111,12 @@ class FoodDetailActivity : AppCompatActivity() {
             }
         }
 
-        add_to_favorite_food.setOnClickListener {
-            add_to_favorite_food.playAnimation()
-        }
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     private fun showFoodType() {
@@ -140,6 +150,12 @@ class FoodDetailActivity : AppCompatActivity() {
         btn_confirm.setOnClickListener {
             try {
                 model!!.addOrderFood(food.price!!, formFood, selectKey)
+                Toast.makeText(
+                        applicationContext,
+                        "${if (formFood) "เพิ่ม" else "แก้ไข"} ${food.foodName} ${model!!.getFoodTypeSize()} " +
+                                "\nจำนวน ${model!!.getAmount()} รายการ เรียบร้อยแล้ว",
+                        Toast.LENGTH_LONG)
+                        .show()
                 finish()
             } catch (e: IndexOutOfBoundsException) {
                 Toast.makeText(applicationContext, "${e.message}", Toast.LENGTH_LONG).show()
@@ -149,6 +165,10 @@ class FoodDetailActivity : AppCompatActivity() {
 
         btn_cancel.setOnClickListener {
             finish()
+        }
+        fab_add_food_fav.setOnClickListener {
+            model!!.addFavoriteFood()
+            Snackbar.make(food_detail, "เพิ่ม ${food.foodName} \nลงในรายการโปรเรียบร้อยแล้ว", Snackbar.LENGTH_LONG).show()
         }
     }
 

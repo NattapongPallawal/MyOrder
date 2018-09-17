@@ -82,6 +82,12 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener, FoodV
             }
         })
 
+        shopping_cart.setOnClickListener {
+            val i = Intent(applicationContext, MyOrderActivity::class.java)
+            i.putExtra("resKey", restaurant)
+            startActivity(i)
+        }
+
     }
 
     private var addAni: LottieAnimationView? = null
@@ -123,26 +129,6 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener, FoodV
         }
         adapter.setData(selectFood, restaurant)
     }
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_food, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item != null) {
-            when (item.itemId) {
-                R.id.shopping_cart -> {
-                    val i = Intent(applicationContext, MyOrderActivity::class.java)
-                    i.putExtra("resKey", restaurant)
-                    startActivity(i)
-                }
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

@@ -3,10 +3,12 @@ package com.example.natta.myorder.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
+import com.example.natta.myorder.data.FavFood
 import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.data.Select
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.lang.Exception
 
 class FoodDetailViewModel : ViewModel() {
     private var mRootRef = FirebaseDatabase.getInstance().reference
@@ -20,9 +22,46 @@ class FoodDetailViewModel : ViewModel() {
     private var foodKey: String = ""
     private var positionFoodType: Int = 0
     private var positionFoodSize: Int = 0
+    private val favFoodRef = mRootRef.child("favoriteFood/${mAuth.currentUser!!.uid}")
+    private var favFoodReady = MutableLiveData<Pair<Boolean, Boolean>>()
 
     init {
         ready.value = false
+        favFoodReady.value = Pair(false, false)
+        ready.observeForever { ready ->
+            if (ready != null && ready) {
+
+                favFoodReady.observeForever {
+                    if (it != null && it.first && it.second) {
+                        val favFood = FavFood(foodKey, food.foodName, food.picture, ServerValue.TIMESTAMP)
+                        val result = favFoodRef.push().setValue(favFood).isCanceled
+                        if (result) {
+                            favFoodReady.value = Pair(false, false)
+                        }
+                    }
+                }
+                val refQuery = favFoodRef.orderByChild("foodID").equalTo(foodKey).limitToFirst(1)
+                refQuery.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if (p0.value == null) {
+                            favFoodReady.value = Pair(true, false)
+                            Log.d("checkFav", "${p0.value}")
+                        } else {
+                            favFoodReady.value = Pair(false, false)
+                            Log.d("checkFavH", "${p0.value}")
+                        }
+
+                    }
+
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.d("checkFavE", p0.message)
+
+                    }
+                })
+            }
+        }
+
+
     }
 
 
@@ -99,6 +138,17 @@ class FoodDetailViewModel : ViewModel() {
 
     }
 
+    fun getFoodTypeSize(): String {
+        var str = ""
+        try {
+            str = mFoodType.value!![positionFoodType].second + " " + mFoodSize.value!![positionFoodSize].second
+        } catch (e: Exception) {
+            str = mFoodSize.value!![positionFoodSize].second
+        } catch (e: Exception) {
+        }
+        return str
+    }
+
     fun getAmount(): Int {
         return amount
     }
@@ -108,7 +158,6 @@ class FoodDetailViewModel : ViewModel() {
     }
 
     fun getReady(): MutableLiveData<Boolean> {
-
         return ready
     }
 
@@ -216,4 +265,14 @@ class FoodDetailViewModel : ViewModel() {
 
         return mFoodType
     }
+
+    fun addFavoriteFood() {
+        if (favFoodReady.value!!.first) {
+            favFoodReady.value = Pair(true, true)
+        }
+
+
+    }
+
+
 }

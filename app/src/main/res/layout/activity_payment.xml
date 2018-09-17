@@ -19,7 +19,7 @@
             android:id="@+id/btn_payment_PM"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/bg_random"
+            android:background="@color/colorAccent"
             android:text="ยืนยัน"
             android:textColor="#FFF"
             app:layout_constraintBottom_toBottomOf="parent"

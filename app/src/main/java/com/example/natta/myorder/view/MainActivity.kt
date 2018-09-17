@@ -73,12 +73,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun onMenuItemClick(position: Int): Boolean {
             when (position) {
                 0 -> {
-                    editor!!.putInt(FROM_RESTAURANT, 1)
+                    editor!!.putInt(FROM_RESTAURANT, 0)
                     editor!!.commit()
                     startActivity(Intent(applicationContext, RestaurantActivity::class.java))
                 }
                 1 -> {
-                    editor!!.putInt(FROM_RESTAURANT, 0)
+                    editor!!.putInt(FROM_RESTAURANT, 1)
                     editor!!.commit()
                     startActivity(Intent(applicationContext, ScanQRCodeActivity::class.java))
 

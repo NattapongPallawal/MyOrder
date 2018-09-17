@@ -26,9 +26,13 @@
         <item name="android:buttonStyle">@style/PromtButtonStyle</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:textViewStyle">@style/PromtTextViewStyle</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:textViewStyle">@style/PromtTextViewStyle</item>
+    </style>
 
     <style name="PromtTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/prompt_light</item>

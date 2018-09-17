@@ -50,7 +50,9 @@ class PaymentActivity : AppCompatActivity() {
         list_payment.layoutManager = LinearLayoutManager(this)
         list_payment.setHasFixedSize(true)
         list_payment.setItemViewCacheSize(20)
-
+        if(fromRes == 0){
+            cash_PM.visibility = View.INVISIBLE
+        }
         model.getRestaurant(resKey).observe(this, Observer {
             if (it != null) {
                 res_name_PM.text = it.restaurantName.toString()
