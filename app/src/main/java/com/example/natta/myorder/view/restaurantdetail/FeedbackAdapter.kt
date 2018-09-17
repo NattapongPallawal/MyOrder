@@ -13,10 +13,7 @@ import android.widget.TextView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Customer
 import com.example.natta.myorder.data.Feedback
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_feedback.view.*
 import java.text.SimpleDateFormat
@@ -40,26 +37,31 @@ class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapt
     override fun onBindViewHolder(h: FeedbackViewHolder, @SuppressLint("RecyclerView") p1: Int) {
         val mCustomerRef = mRootRef.child("customer").child(feedback[p1].customer!!)
         val listener = object : ValueEventListener {
-            var mOneCustomer : Customer? = null
+            var mOneCustomer: Customer? = null
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
                 mOneCustomer = p0.getValue(Customer::class.java)
                 h.name.text = "${mOneCustomer?.firstName} ${mOneCustomer?.lastName}"
                 try {
                     Picasso.get().load(mOneCustomer?.picture).into(h.image)
-                } catch (e:IllegalArgumentException){
+                } catch (e: IllegalArgumentException) {
 
                 }
 
 
             }
         }
-        h.date.text = convertDate(feedback[p1].date as Long)
+        try {
+            h.date.text = convertDate(feedback[p1].date as Long)
+        } catch (e: TypeCastException) {
+        }
+
         mCustomerRef.addValueEventListener(listener)
         h.title.text = feedback[p1].title.toString()
         h.comment.text = feedback[p1].comment.toString()
         h.rating.rating = feedback[p1].rating!!.toFloat()
     }
+
     @SuppressLint("SimpleDateFormat")
     private fun convertDate(t: Long): String {
 //        SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString()
@@ -96,6 +98,7 @@ class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapt
             }
         })
         this.feedback = feedback
+        Log.d("timeStampMap", "${ServerValue.TIMESTAMP}")
         notifyDataSetChanged()
     }
 

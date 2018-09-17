@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Toast
@@ -42,10 +43,15 @@ class RestaurantDetailActivity : AppCompatActivity() {
         distance = intent.getStringExtra("distance")
         resKey = intent.getStringExtra("resKey")
 
+
+
         val adapter = FeedbackAdapter(applicationContext)
         setDialog()
         loadImage()
         setTextValue()
+        btn_review_RD.setOnClickListener {
+            dialog.show()
+        }
         recycleView_feedback.adapter = adapter
         recycleView_feedback.layoutManager = LinearLayoutManager(applicationContext)
 
@@ -131,9 +137,5 @@ class RestaurantDetailActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    fun onClickReview(v: View) {
-        v.setOnClickListener {
-            dialog.show()
-        }
-    }
+
 }
