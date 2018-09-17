@@ -16,7 +16,7 @@ class OrderViewModel : ViewModel() {
     private var mOrder = MutableLiveData<ArrayList<Pair<String, Order>>>()
 
     fun getOrder(): MutableLiveData<ArrayList<Pair<String, Order>>> {
-        val ref = mRootRef.child("order/${mAuth.currentUser!!.uid}")
+        val ref = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByChild("finish").equalTo(false)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

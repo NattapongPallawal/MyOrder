@@ -22,6 +22,7 @@ class PaymentViewModel : ViewModel() {
     private var total: Double = 0.0
     private var queue: Int = 0
     private var restaurantID: String = ""
+    private var fromRestaurant: Int = -1
 
     init {
         orderNumber.value = -1
@@ -31,41 +32,64 @@ class PaymentViewModel : ViewModel() {
         return total
     }
 
+    fun setFromRestaurant(fromRestaurant: Int) {
+
+        this.fromRestaurant = fromRestaurant
+    }
+
     @SuppressLint("SimpleDateFormat")
     fun addOrder(selectPromtPay: Boolean) {
-        val resRef = mRootRef.child("order/${mAuth.currentUser!!.uid}")
-        val orderNumberRef = mRootRef.child("temp/orderNumber/$restaurantID")
-        resRef.push().setValue(Order(
-                queue + 1,
-                total,
-                "รอรับออเดอร์",
-                ServerValue.TIMESTAMP,
-                restaurantID,
-                if (selectPromtPay) {
-                    "promtpay"
-                } else {
-                    "cash"
-                },
-                restaurant.value!!.restaurantName
-        ))
+        if (fromRestaurant != -1) {
+            val resRef = mRootRef.child("order/${mAuth.currentUser!!.uid}")
+            val orderNumberRef = mRootRef.child("temp/orderNumber/$restaurantID")
+            resRef.push().setValue(Order(
+                    queue + 1,
+                    total,
+                    if (fromRestaurant == 1) {
+                        "รอรับออเดอร์"
+                    } else {
+                        "รอการชำระเงิน"
+                    },
+                    ServerValue.TIMESTAMP,
+                    restaurantID,
+                    if (selectPromtPay) {
+                        "promtpay"
+                    } else {
+                        "cash"
+                    },
+                    restaurant.value!!.restaurantName,
+                    0,
+                    if (fromRestaurant == 1) {
+                        5
+                    } else {
+                        6
+                    },
+                    fromRestaurant == 1,
+                    false,
+                    myOrder.value!!.size
+            ))
 
-        { p0, p1 ->
-            myOrder.value!!.forEach {
-                mRootRef.child("order-menu/${p1.key}").push()
-                        .setValue(OrderMenu(
-                                it.second.foodSizeID,
-                                it.second.foodTypeID,
-                                it.second.amount,
-                                it.second.foodID,
-                                it.second.price
-                        )) { p0, p1 ->
-                            val updateQueue = hashMapOf("queue" to queue + 1, "date" to ServerValue.TIMESTAMP)
-                            orderNumberRef.setValue(updateQueue)
-                            deleteSelectFoodAll()
-                        }
+            { p0, p1 ->
+                myOrder.value!!.forEach {
+                    mRootRef.child("order-menu/${p1.key}").push()
+                            .setValue(OrderMenu(
+                                    it.second.foodSizeID,
+                                    it.second.foodTypeID,
+                                    it.second.amount,
+                                    it.second.foodID,
+                                    it.second.price,
+                                    it.second.foodName,
+                                    it.second.foodTypeName,
+                                    it.second.foodSizeName
+                            )) { p0, p1 ->
+                                val updateQueue = hashMapOf("queue" to queue + 1, "date" to ServerValue.TIMESTAMP)
+                                orderNumberRef.setValue(updateQueue)
+                                deleteSelectFoodAll()
+                            }
+                }
             }
+            Log.d("dateTimeStamp", SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString())
         }
-        Log.d("dateTimeStamp", SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString())
     }
 
     @SuppressLint("SimpleDateFormat")

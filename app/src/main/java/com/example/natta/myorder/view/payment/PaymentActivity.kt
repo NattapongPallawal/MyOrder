@@ -4,18 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.graphics.*
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Toast
@@ -31,6 +26,9 @@ import kotlin.math.roundToInt
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class PaymentActivity : AppCompatActivity() {
+    private var sp: SharedPreferences? = null
+    private val FROM_RESTAURANT = "FROM_RESTAURANT"
+
     private var model = PaymentViewModel()
     private var resKey = ""
     private var restaurant = Restaurant()
@@ -43,6 +41,10 @@ class PaymentActivity : AppCompatActivity() {
         actionBar!!.setDisplayHomeAsUpEnabled(true)
         resKey = intent.getStringExtra("resKey")
         model = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
+        sp = getSharedPreferences("MY_ORDER", 0)
+        val fromRes = sp!!.getInt(FROM_RESTAURANT, -1)
+        model.setFromRestaurant(fromRes)
+
         val adapter = PaymentAdapter(this)
         list_payment.adapter = adapter
         list_payment.layoutManager = LinearLayoutManager(this)

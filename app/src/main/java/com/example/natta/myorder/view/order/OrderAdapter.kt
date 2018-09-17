@@ -9,12 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.airbnb.lottie.L
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Order
 import com.example.natta.myorder.view.orderdetail.OrderDetailActivity
 import kotlinx.android.synthetic.main.list_order.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
@@ -31,17 +34,18 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val time = convertDate(order[position].second.date as Long)
         holder.res.text = order[position].second.restaurantName.toString()
         holder.time.text = time
         holder.status.text = order[position].second.status.toString()
-        holder.total.text = order[position].second.total.toString()
+        holder.total.text = order[position].second.total.toString() + " ฿"
         holder.orderNumber.text = order[position].second.orderNumber.toString()
         holder.cardOrder.setOnClickListener {
             val i = Intent(context.applicationContext, OrderDetailActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            i.putExtra("orderKey",order[position].first)
+            i.putExtra("orderKey", order[position].first)
             context.startActivity(i)
         }
     }
@@ -73,9 +77,19 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
 
     fun setData(order: ArrayList<Pair<String, Order>>) {
+        order.sortWith(Comparator { o1, o2 ->
+            val a = o1!!.second.date as Long
+            val b = o2!!.second.date as Long
+            when {
+                a < b -> 1
+                a == b -> 0
+                else -> -1
+            }
+        })
         this.order = order
         notifyDataSetChanged()
     }
+
 
     inner class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var res = view.resName_Order as TextView

@@ -2,22 +2,34 @@ package com.example.natta.myorder.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.example.natta.myorder.data.Customer
+import android.util.Log
 import com.example.natta.myorder.data.Order
-import com.example.natta.myorder.repository.RTDBRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class OrderHistoryViewModel : ViewModel() {
-    private var mRTDBRepository = RTDBRepository()
-    private var mCustomer = MutableLiveData<Customer>()
-    private var mOrder = MutableLiveData<List<Order>>()
-//    fun getCustomer(): MutableLiveData<Customer> {
-//        var mAuth = FirebaseAuth.getInstance()
-//        mCustomer = mRTDBRepository.getCustomer("cus-test1")
-//        return mCustomer
-//    }
+    private var mRootRef = FirebaseDatabase.getInstance().reference
+    private var mAuth = FirebaseAuth.getInstance()
+    private var mOrder = MutableLiveData<ArrayList<Pair<String,Order>>>()
 
-    fun getOrder(): MutableLiveData<List<Order>> {
-        mOrder = mRTDBRepository.getOrderHistory()
+    fun getOrder(): MutableLiveData<ArrayList<Pair<String, Order>>> {
+        val mOrderHistoryRef = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByChild("finish").equalTo(true)
+        mOrderHistoryRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                val orderList = arrayListOf<Pair<String,Order>>()
+                p0.children.forEach {
+                    val k = it.key!!
+                    val v = it.getValue(Order::class.java)!!
+                    orderList.add(Pair(k,v))
+                }
+                Log.d("getOrderHistory",p0.value.toString())
+                mOrder.value = orderList
+            }
+        })
         return mOrder
     }
 }

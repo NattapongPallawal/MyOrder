@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Order
 import com.example.natta.myorder.viewmodel.OrderHistoryViewModel
@@ -27,7 +26,6 @@ class OrderHistoryActivity : AppCompatActivity() {
 
         model.getOrder().observe(this, Observer {
             if (it != null) {
-                Toast.makeText(applicationContext, "${it.size}", Toast.LENGTH_LONG).show()
                 adapter.setData(it)
             }
         })

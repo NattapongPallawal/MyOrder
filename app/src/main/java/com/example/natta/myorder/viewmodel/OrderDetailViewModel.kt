@@ -26,7 +26,10 @@ class OrderDetailViewModel : ViewModel() {
         }
     }
 
-    fun getOrder(key: String) {
+    fun getMenu() = mOrderMenu
+
+
+    fun getOrder(key: String): MutableLiveData<Order> {
         this.key = key
         val ref = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByKey().equalTo(key)
         ref.addValueEventListener(object : ValueEventListener {
@@ -41,6 +44,7 @@ class OrderDetailViewModel : ViewModel() {
             }
 
         })
+        return mOrder
     }
 
     private fun getOrderMenu(key: String) {

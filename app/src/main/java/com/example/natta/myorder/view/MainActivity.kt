@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.os.AsyncTask
 import android.os.Bundle
@@ -16,18 +17,17 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Customer
 import com.example.natta.myorder.view.aboutapplication.AboutApplicationActivity
 import com.example.natta.myorder.view.favorite.FavoriteActivity
-import com.example.natta.myorder.view.food.FoodActivity
 import com.example.natta.myorder.view.login.LoginActivity
 import com.example.natta.myorder.view.myprofile.MyProfileActivity
 import com.example.natta.myorder.view.opsl.OPSLActivity
 import com.example.natta.myorder.view.orderhistory.OrderHistoryActivity
 import com.example.natta.myorder.view.randomfood.RandomFoodActivity
 import com.example.natta.myorder.view.restaurant.RestaurantActivity
+import com.example.natta.myorder.view.scanqrcode.ScanQRCodeActivity
 import com.example.natta.myorder.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -39,6 +39,9 @@ import uk.co.markormesher.android_fab.SpeedDialMenuAdapter
 import uk.co.markormesher.android_fab.SpeedDialMenuItem
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private var editor: SharedPreferences.Editor? = null
+    private val FROM_RESTAURANT = "FROM_RESTAURANT"
+
     private val tab = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -70,12 +73,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun onMenuItemClick(position: Int): Boolean {
             when (position) {
                 0 -> {
-                    Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
+                    editor!!.putInt(FROM_RESTAURANT, 1)
+                    editor!!.commit()
                     startActivity(Intent(applicationContext, RestaurantActivity::class.java))
                 }
                 1 -> {
-                    Toast.makeText(applicationContext, item[position], Toast.LENGTH_LONG).show()
-                    startActivity(Intent(applicationContext, FoodActivity::class.java))
+                    editor!!.putInt(FROM_RESTAURANT, 0)
+                    editor!!.commit()
+                    startActivity(Intent(applicationContext, ScanQRCodeActivity::class.java))
 
                 }
             }
@@ -86,6 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
     private lateinit var model: MainViewModel
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -95,6 +101,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+        editor = this.getSharedPreferences("MY_ORDER", Context.MODE_PRIVATE).edit()
         initMainTabPager()
         initFabAddOrder()
         nav_view.setNavigationItemSelectedListener(this)
