@@ -62,4 +62,16 @@
         app:layout_constraintStart_toStartOf="@+id/feedbackRating_RD"
         app:layout_constraintTop_toBottomOf="@+id/feedbackRating_RD" />
 
+    <TextView
+        android:id="@+id/date_FB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/feedbackName_RD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feedbackName_RD" />
+
 </android.support.constraint.ConstraintLayout>

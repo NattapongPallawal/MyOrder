@@ -19,9 +19,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_feedback.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapter.FeedbackViewHolder>() {
-    private var feedback = listOf<Feedback>()
+    private var feedback = arrayListOf<Feedback>()
     private var customerData = RestaurantDetailActivity()
     private var mRootRef = FirebaseDatabase.getInstance().reference
 
@@ -43,17 +45,56 @@ class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapt
             override fun onDataChange(p0: DataSnapshot) {
                 mOneCustomer = p0.getValue(Customer::class.java)
                 h.name.text = "${mOneCustomer?.firstName} ${mOneCustomer?.lastName}"
-                Picasso.get().load(mOneCustomer?.picture).into(h.image)
+                try {
+                    Picasso.get().load(mOneCustomer?.picture).into(h.image)
+                } catch (e:IllegalArgumentException){
+
+                }
+
 
             }
         }
+        h.date.text = convertDate(feedback[p1].date as Long)
         mCustomerRef.addValueEventListener(listener)
         h.title.text = feedback[p1].title.toString()
         h.comment.text = feedback[p1].comment.toString()
         h.rating.rating = feedback[p1].rating!!.toFloat()
     }
+    @SuppressLint("SimpleDateFormat")
+    private fun convertDate(t: Long): String {
+//        SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString()
+        val d = Date(t)
+        val orderDate = SimpleDateFormat("ddMMyyyy").format(d).toLong()
+        val today = SimpleDateFormat("ddMMyyyy").format(Date()).toLong()
+        val fmD = SimpleDateFormat("dd")
+        val fmM = SimpleDateFormat("MM")
+        val fmY = SimpleDateFormat("yyyy")
+        val fmT = SimpleDateFormat("HH:mm")
 
-    fun setData(feedback: List<Feedback>) {
+        val day = fmD.format(d)
+        val month = fmM.format(d)
+        val year = (fmY.format(d).toInt() + 543).toString()
+        val time = fmT.format(d)
+
+
+
+        return if (orderDate == today) {
+            "วันนี้\nเวลา $time"
+        } else {
+            "วันที่ $day/$month/$year\nเวลา $time"
+        }
+    }
+
+    fun setData(feedback: ArrayList<Feedback>) {
+        feedback.sortWith(Comparator { o1, o2 ->
+            val a = o1.rating!!
+            val b = o2.rating!!
+            when {
+                a < b -> 1
+                a == b -> 0
+                else -> -1
+            }
+        })
         this.feedback = feedback
         notifyDataSetChanged()
     }
@@ -65,5 +106,6 @@ class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapt
         var comment = view.feedbackComment_RD as TextView
         var image = view.feedbackImg_RD as ImageView
         var rating = view.feedbackRating_RD as RatingBar
+        var date = view.date_FB as TextView
     }
 }

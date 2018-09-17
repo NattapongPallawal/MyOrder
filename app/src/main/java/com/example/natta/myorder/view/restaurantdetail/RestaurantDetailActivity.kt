@@ -1,23 +1,34 @@
 package com.example.natta.myorder.view.restaurantdetail
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.view.Window
+import android.widget.Toast
 import com.example.natta.myorder.R
-import com.example.natta.myorder.data.Customer
+import com.example.natta.myorder.data.Feedback
 import com.example.natta.myorder.data.Restaurant
 import com.example.natta.myorder.viewmodel.RestaurantDetailViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_restaurant_detail.*
 import kotlinx.android.synthetic.main.content_restaurant_detail.*
+import kotlinx.android.synthetic.main.custom_dialog_feedback.*
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RestaurantDetailActivity : AppCompatActivity() {
     var restaurant = Restaurant()
     var distance = "0"
     var model = RestaurantDetailViewModel()
+    var resKey = ""
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_detail)
@@ -29,19 +40,70 @@ class RestaurantDetailActivity : AppCompatActivity() {
 
         restaurant = intent.getParcelableExtra("restaurant")
         distance = intent.getStringExtra("distance")
+        resKey = intent.getStringExtra("resKey")
 
         val adapter = FeedbackAdapter(applicationContext)
+        setDialog()
         loadImage()
         setTextValue()
         recycleView_feedback.adapter = adapter
         recycleView_feedback.layoutManager = LinearLayoutManager(applicationContext)
 
-        model.getFeedback("res-test1").observe(this, Observer {
+        model.getFeedback(resKey).observe(this, Observer {
             if (it != null) {
                 adapter.setData(it)
             }
         })
 
+    }
+
+    private fun setDialog() {
+        var rating: Float = 0f
+        var title = ""
+        var review = ""
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_dialog_feedback)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.window.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+        dialog.resName_DI_RD.text = restaurant.restaurantName
+        dialog.ratingBar_DI_RD.setOnRatingBarChangeListener { _, r, _ ->
+                rating = r
+        }
+        dialog.title_RD.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                title = s.toString()
+            }
+
+        })
+        dialog.review_FB_RD.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                review = s.toString()
+            }
+
+        })
+        dialog.btn_send_FB_RD.setOnClickListener {
+            model.setFeedback(rating,title,review,resKey)
+            dialog.title_RD.text.clear()
+            dialog.review_FB_RD.text.clear()
+            dialog.ratingBar_DI_RD.rating = 0f
+            dialog.dismiss()
+        }
     }
 
     private fun loadImage() {
@@ -64,9 +126,14 @@ class RestaurantDetailActivity : AppCompatActivity() {
     }
 
 
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    fun onClickReview(v: View) {
+        v.setOnClickListener {
+            dialog.show()
+        }
     }
 }

@@ -48,7 +48,7 @@ class RestaurantAdapter(var context: Context, private var latitude: Double, priv
         p0.btnOrderFood.setOnClickListener {
             val i = Intent(context, FoodActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            i.putExtra("resKey",restaurantList[p1].getKey())
+            i.putExtra("resKey", restaurantList[p1].getKey())
             context.startActivity(i)
         }
         p0.restaurantView.setOnClickListener {
@@ -56,11 +56,12 @@ class RestaurantAdapter(var context: Context, private var latitude: Double, priv
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             i.putExtra("restaurant", restaurantList[p1])
             i.putExtra("distance", distance)
+            i.putExtra("resKey", restaurantList[p1].getKey())
             context.startActivity(i)
         }
     }
 
-    private fun calculateDistance(latitude: Double?, longitude: Double?): String {
+    private fun calculateDistance(latitude: Double?, longitude: Double?, fromSetData: Boolean = false): String {
         val resLocation = Location("resLocation")
         resLocation.longitude = longitude!!
         resLocation.latitude = latitude!!
@@ -68,10 +69,19 @@ class RestaurantAdapter(var context: Context, private var latitude: Double, priv
         currentLocation.longitude = this.longitude
         currentLocation.latitude = this.latitude
         val distance = currentLocation.distanceTo(resLocation) / 1000
-        return String.format("%.1f", distance)
+        return if (fromSetData) distance.toString() else String.format("%.1f", distance)
     }
 
-    fun setData(restaurantList: List<Restaurant>) {
+    fun setData(restaurantList: ArrayList<Restaurant>) {
+        restaurantList.sortWith(Comparator { o1, o2 ->
+            val a = calculateDistance(o1!!.address!!.latitude, o1.address!!.longitude, true).toFloat()
+            val b = calculateDistance(o2!!.address!!.latitude, o2.address!!.longitude, true).toFloat()
+            when {
+                a > b -> 1
+                a == b -> 0
+                else -> -1
+            }
+        })
         this.restaurantList = restaurantList
         notifyDataSetChanged()
 
