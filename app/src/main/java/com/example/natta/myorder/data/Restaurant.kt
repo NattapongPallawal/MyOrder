@@ -17,7 +17,7 @@ class Restaurant constructor(var restaurantName: String? = null,
                              var address: Address? = Address(),
                              var about: String? = null,
                              var phoneNumber: String? = null) : Parcelable {
-    private var key: String? = ""
+    private var key: String = ""
 
     fun setKey(key: String) {
         this.key = key

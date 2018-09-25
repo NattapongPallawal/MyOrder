@@ -16,7 +16,7 @@ class OrderViewModel : ViewModel() {
     private var mOrder = MutableLiveData<ArrayList<Pair<String, Order>>>()
 
     fun getOrder(): MutableLiveData<ArrayList<Pair<String, Order>>> {
-        val ref = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByChild("finish").equalTo(false)
+        val ref = mRootRef.child("order").orderByChild("finish").equalTo(false)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -27,7 +27,9 @@ class OrderViewModel : ViewModel() {
                 p0.children.forEach {
                     val key = it.key!!
                     val order = it.getValue(Order::class.java)!!
-                    orderTemp.add(Pair(key, order))
+                    if (order.customerID == mAuth.currentUser!!.uid)
+                        orderTemp.add(Pair(key, order))
+                    Log.d("checkOrder",order.paymentType)
 
                 }
                 mOrder.value = orderTemp

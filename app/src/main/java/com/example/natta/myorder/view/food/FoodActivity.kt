@@ -52,7 +52,7 @@ class FoodActivity : AppCompatActivity(), FoodAdapter.OnItemClickListener, FoodV
             Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
         }
 
-        adapter = FoodAdapter(applicationContext)
+        adapter = FoodAdapter()
         adapter.setOnItemClickListener(this)
         setUpFood(adapter)
 

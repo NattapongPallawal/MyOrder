@@ -17,9 +17,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class OrderHistoryAdapter(var context: Context) : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryHolder>() {
+class OrderHistoryAdapter() : RecyclerView.Adapter<OrderHistoryAdapter.OrderHistoryHolder>() {
     private var orderList = arrayListOf<Pair<String, Order>>()
+    private lateinit var context: Context
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): OrderHistoryHolder {
+        context = p0.context
         val view = LayoutInflater.from(context).inflate(R.layout.list_order_history, p0, false)
         return OrderHistoryHolder(view)
 

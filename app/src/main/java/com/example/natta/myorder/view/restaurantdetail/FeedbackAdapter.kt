@@ -19,12 +19,14 @@ import kotlinx.android.synthetic.main.list_feedback.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapter.FeedbackViewHolder>() {
+class FeedbackAdapter() : RecyclerView.Adapter<FeedbackAdapter.FeedbackViewHolder>() {
     private var feedback = arrayListOf<Feedback>()
     private var customerData = RestaurantDetailActivity()
     private var mRootRef = FirebaseDatabase.getInstance().reference
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): FeedbackViewHolder {
+        context = p0.context
         val view = LayoutInflater.from(context).inflate(R.layout.list_feedback, p0, false)
         return FeedbackViewHolder(view)
     }
@@ -81,9 +83,9 @@ class FeedbackAdapter(var context: Context) : RecyclerView.Adapter<FeedbackAdapt
 
 
         return if (orderDate == today) {
-            "วันนี้\nเวลา $time"
+            "วันนี้\n$time"
         } else {
-            "วันที่ $day/$month/$year\nเวลา $time"
+            "$day/$month/$year\n$time"
         }
     }
 

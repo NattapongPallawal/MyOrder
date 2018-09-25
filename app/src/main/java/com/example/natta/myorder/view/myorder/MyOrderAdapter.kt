@@ -20,18 +20,20 @@ import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_my_order.view.*
 
-class MyOrderAdapter(var context: Context) : RecyclerView.Adapter<MyOrderAdapter.MyOrderViewHolder>() {
+class MyOrderAdapter() : RecyclerView.Adapter<MyOrderAdapter.MyOrderViewHolder>() {
     private var myOrder = arrayListOf<Pair<String, Select>>()
     private var mRootRef = FirebaseDatabase.getInstance().reference
     private var mAuth = FirebaseAuth.getInstance()
     private var total = MutableLiveData<Double>()
     private var t: Double = 0.0
+    private lateinit var context: Context
 
     init {
         total.value = 0.0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyOrderViewHolder {
+        context = parent.context
         val view = LayoutInflater.from(context).inflate(R.layout.list_my_order, parent, false)
 
         return MyOrderViewHolder(view)

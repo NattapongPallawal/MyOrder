@@ -40,7 +40,7 @@ class PaymentViewModel : ViewModel() {
     @SuppressLint("SimpleDateFormat")
     fun addOrder(selectPromtPay: Boolean) {
         if (fromRestaurant != -1) {
-            val resRef = mRootRef.child("order/${mAuth.currentUser!!.uid}")
+            val resRef = mRootRef.child("order")
             val orderNumberRef = mRootRef.child("temp/orderNumber/$restaurantID")
             resRef.push().setValue(Order(
                     queue + 1,
@@ -66,7 +66,8 @@ class PaymentViewModel : ViewModel() {
                     },
                     fromRestaurant == 1,
                     false,
-                    myOrder.value!!.size
+                    myOrder.value!!.size,
+                    mAuth.currentUser!!.uid
             ))
 
             { p0, p1 ->
@@ -81,7 +82,7 @@ class PaymentViewModel : ViewModel() {
                                     it.second.foodName,
                                     it.second.foodTypeName,
                                     it.second.foodSizeName
-                            )) { p0, p1 ->
+                            )) { _, _ ->
                                 val updateQueue = hashMapOf("queue" to queue + 1, "date" to ServerValue.TIMESTAMP)
                                 orderNumberRef.setValue(updateQueue)
                                 deleteSelectFoodAll()

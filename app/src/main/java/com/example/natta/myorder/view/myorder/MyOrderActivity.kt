@@ -36,7 +36,7 @@ class MyOrderActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter = MyOrderAdapter(applicationContext)
+        val adapter = MyOrderAdapter()
         recyclerView_MO.adapter = adapter
         recyclerView_MO.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView_MO.setHasFixedSize(true)

@@ -19,10 +19,12 @@ import com.example.natta.myorder.view.restaurantdetail.RestaurantDetailActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_restaurant.view.*
 
-class RestaurantAdapter(var context: Context, private var latitude: Double, private var longitude: Double) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+class RestaurantAdapter(private var latitude: Double, private var longitude: Double) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
     private var restaurantList = listOf<Restaurant>()
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RestaurantViewHolder {
+        context = p0.context
         val view = LayoutInflater.from(context).inflate(R.layout.list_restaurant, p0, false)
         return RestaurantViewHolder(view)
     }

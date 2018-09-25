@@ -1,5 +1,6 @@
 package com.example.natta.myorder.view.favorite.restaurant
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -19,11 +20,12 @@ class FavoriteRestaurantFragment : Fragment() {
     }
 
     private lateinit var viewModel: FavoriteRestaurantViewModel
+    private val adapter = FavoriteRestaurantAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.favorite_restaurant_fragment, container, false)
-        val adapter = FavoriteRestaurantAdapter(view.context)
+
         view.recyclerView_res_fav.adapter = adapter
         view.recyclerView_res_fav.layoutManager = LinearLayoutManager(view.context)
         return view
@@ -32,7 +34,11 @@ class FavoriteRestaurantFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(FavoriteRestaurantViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.getFavRes().observe(this, Observer {
+            if (it != null) {
+                adapter.setData(it)
+            }
+        })
     }
 
 }

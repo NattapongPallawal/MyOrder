@@ -2,8 +2,11 @@ package com.example.natta.myorder.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import com.example.natta.myorder.data.Customer
+import com.example.natta.myorder.data.FavRes
 import com.example.natta.myorder.data.Feedback
+import com.example.natta.myorder.data.Restaurant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -12,6 +15,43 @@ class RestaurantDetailViewModel : ViewModel() {
     private var mAuth = FirebaseAuth.getInstance()
     private var mFeedback = MutableLiveData<ArrayList<Feedback>>()
     private var mOneCustomer = MutableLiveData<Customer>()
+    private val favResRef = mRootRef.child("favoriteRestaurant/${mAuth.currentUser!!.uid}")
+    private var favResReady = MutableLiveData<Pair<Boolean, Boolean>>()
+    private var ready = MutableLiveData<Boolean>()
+    private var restaurant = Restaurant()
+    private var resKey = ""
+
+    init {
+        ready.value = false
+        favResReady.value = Pair(false, false)
+        ready.observeForever { ready ->
+            if (ready != null && ready) {
+                favResReady.observeForever {
+                    if (it != null && it.first && it.second) {
+                        val favFood = FavRes(resKey, restaurant.restaurantName, restaurant.picture, ServerValue.TIMESTAMP,restaurant.rating)
+                        val result = favResRef.push().setValue(favFood).isCanceled
+                        if (result) {
+                            favResReady.value = Pair(false, false)
+                        }
+                    }
+                }
+                val refQuery = favResRef.orderByChild("resID").equalTo(resKey).limitToFirst(1)
+                refQuery.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if (p0.value == null) {
+                            favResReady.value = Pair(true, false)
+                        } else {
+                            favResReady.value = Pair(false, false)
+                        }
+
+                    }
+
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+                })
+            }
+        }
+    }
 
 
     fun getFeedback(resID: String): MutableLiveData<ArrayList<Feedback>> {
@@ -37,8 +77,20 @@ class RestaurantDetailViewModel : ViewModel() {
     }
 
     fun setFeedback(rating: Float, title: String, review: String, resKey: String) {
-        val feedback = Feedback(mAuth.currentUser!!.uid,null,title,review,rating.toDouble(),ServerValue.TIMESTAMP)
+        val feedback = Feedback(mAuth.currentUser!!.uid, null, title, review, rating.toDouble(), ServerValue.TIMESTAMP)
         val mFeedbackRef = mRootRef.child("feedback").child(resKey)
-                mFeedbackRef.push().setValue(feedback)
+        mFeedbackRef.push().setValue(feedback)
+    }
+
+    fun setData(resKey: String, restaurant: Restaurant) {
+        this.resKey = resKey
+        this.restaurant = restaurant
+        ready.value = true
+    }
+
+    fun addFavoriteRes() {
+        if (favResReady.value!!.first) {
+            favResReady.value = Pair(true, true)
+        }
     }
 }

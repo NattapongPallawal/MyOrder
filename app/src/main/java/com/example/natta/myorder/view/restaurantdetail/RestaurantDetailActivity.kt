@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
@@ -25,10 +26,10 @@ import kotlinx.android.synthetic.main.custom_dialog_feedback.*
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class RestaurantDetailActivity : AppCompatActivity() {
-    var restaurant = Restaurant()
-    var distance = "0"
-    var model = RestaurantDetailViewModel()
-    var resKey = ""
+    private var restaurant = Restaurant()
+    private var resKey = ""
+    private var distance = "0"
+    private var model = RestaurantDetailViewModel()
     private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +44,9 @@ class RestaurantDetailActivity : AppCompatActivity() {
         distance = intent.getStringExtra("distance")
         resKey = intent.getStringExtra("resKey")
 
+        model.setData(resKey,restaurant)
 
-
-        val adapter = FeedbackAdapter(applicationContext)
+        val adapter = FeedbackAdapter()
         setDialog()
         loadImage()
         setTextValue()
@@ -60,6 +61,12 @@ class RestaurantDetailActivity : AppCompatActivity() {
                 adapter.setData(it)
             }
         })
+        fabFavorite_RD.setOnClickListener {
+            model.addFavoriteRes()
+            Snackbar.make(res_detail, "เพิ่ม ${restaurant.restaurantName} \nลงในรายการโปรเรียบร้อยแล้ว", Snackbar.LENGTH_LONG).show()
+
+        }
+
 
     }
 

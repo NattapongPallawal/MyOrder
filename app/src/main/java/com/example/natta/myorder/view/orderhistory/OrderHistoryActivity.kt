@@ -20,7 +20,7 @@ class OrderHistoryActivity : AppCompatActivity() {
         actionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val model = ViewModelProviders.of(this).get(OrderHistoryViewModel::class.java)
-        val adapter = OrderHistoryAdapter(applicationContext)
+        val adapter = OrderHistoryAdapter()
         recycleView_oh.adapter = adapter
         recycleView_oh.layoutManager = LinearLayoutManager(applicationContext)
 

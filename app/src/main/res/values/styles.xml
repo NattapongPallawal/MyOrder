@@ -36,10 +36,12 @@
 
     <style name="PromtTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/prompt_light</item>
+
     </style>
 
     <style name="PromtButtonStyle" parent="android:Widget.Holo.Button">
         <item name="android:fontFamily">@font/prompt_light</item>
     </style>
+
 
 </resources>

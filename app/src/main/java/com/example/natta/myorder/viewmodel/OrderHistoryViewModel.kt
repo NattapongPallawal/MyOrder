@@ -13,20 +13,21 @@ import com.google.firebase.database.ValueEventListener
 class OrderHistoryViewModel : ViewModel() {
     private var mRootRef = FirebaseDatabase.getInstance().reference
     private var mAuth = FirebaseAuth.getInstance()
-    private var mOrder = MutableLiveData<ArrayList<Pair<String,Order>>>()
+    private var mOrder = MutableLiveData<ArrayList<Pair<String, Order>>>()
 
     fun getOrder(): MutableLiveData<ArrayList<Pair<String, Order>>> {
-        val mOrderHistoryRef = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByChild("finish").equalTo(true)
+        val mOrderHistoryRef = mRootRef.child("order").orderByChild("finish").equalTo(true)
         mOrderHistoryRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
-                val orderList = arrayListOf<Pair<String,Order>>()
+                val orderList = arrayListOf<Pair<String, Order>>()
                 p0.children.forEach {
                     val k = it.key!!
                     val v = it.getValue(Order::class.java)!!
-                    orderList.add(Pair(k,v))
+                    if (v.customerID == mAuth.currentUser!!.uid)
+                        orderList.add(Pair(k, v))
                 }
-                Log.d("getOrderHistory",p0.value.toString())
+                Log.d("getOrderHistory", p0.value.toString())
                 mOrder.value = orderList
             }
         })

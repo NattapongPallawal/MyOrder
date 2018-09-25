@@ -18,12 +18,14 @@ import com.example.natta.myorder.data.Food
 import com.example.natta.myorder.view.fooddetail.FoodDetailActivity
 import kotlinx.android.synthetic.main.list_food.view.*
 
-class FoodAdapter(var context: Context) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class FoodAdapter() : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     private var food= arrayListOf<Pair<String, Food>>()
     private var resKey: String = ""
     private lateinit var onItemClickListener : OnItemClickListener
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
+        context= parent.context
         val view = LayoutInflater.from(context).inflate(R.layout.list_food, parent, false)
         return FoodViewHolder(view)
     }

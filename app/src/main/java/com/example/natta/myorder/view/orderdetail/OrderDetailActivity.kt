@@ -1,5 +1,6 @@
 package com.example.natta.myorder.view.orderdetail
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -16,6 +17,7 @@ class OrderDetailActivity : AppCompatActivity() {
     private var orderKey: String = ""
     private lateinit var model: OrderDetailViewModel
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_detail)
@@ -28,6 +30,9 @@ class OrderDetailActivity : AppCompatActivity() {
                 stepperIndicator.stepCount = it.numStatus!!
                 stepperIndicator.currentStep = it.currentStatus!!
                 status_OD.text = it.status.toString()
+                orderNum_OD.text = "#"+it.orderNumber.toString()
+                resName_OD.text = it.restaurantName.toString()
+                date_OD.text = it.date.toString()
             }
 
         })
@@ -41,10 +46,13 @@ class OrderDetailActivity : AppCompatActivity() {
 //        val a = arrayOf("AAAAAAAAAAA","BBBBBBBBB","CCCCCCCCCCC","DDDDDDDDDD","EEEEEEEEEEEEEE")
 //        indicator.setLabels(a)
         model.getMenu().observe(this, Observer {
-            if (it != null)
+            if (it != null){
                 adapterFood.setData(it)
+            }
+
         })
         Toast.makeText(applicationContext, orderKey, Toast.LENGTH_LONG).show()
+
 
 //        val adapterStatus = StatusAdapter()
 //        recyclerView_status.adapter = adapterStatus

@@ -31,7 +31,7 @@ class OrderDetailViewModel : ViewModel() {
 
     fun getOrder(key: String): MutableLiveData<Order> {
         this.key = key
-        val ref = mRootRef.child("order/${mAuth.currentUser!!.uid}").orderByKey().equalTo(key)
+        val ref = mRootRef.child("order").orderByChild("customerID").equalTo(mAuth.currentUser!!.uid)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

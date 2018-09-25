@@ -24,6 +24,7 @@ class FoodDetailViewModel : ViewModel() {
     private var positionFoodSize: Int = 0
     private val favFoodRef = mRootRef.child("favoriteFood/${mAuth.currentUser!!.uid}")
     private var favFoodReady = MutableLiveData<Pair<Boolean, Boolean>>()
+    private var resName = ""
 
     init {
         ready.value = false
@@ -33,7 +34,7 @@ class FoodDetailViewModel : ViewModel() {
 
                 favFoodReady.observeForever {
                     if (it != null && it.first && it.second) {
-                        val favFood = FavFood(foodKey, food.foodName, food.picture, ServerValue.TIMESTAMP)
+                        val favFood = FavFood(foodKey, food.foodName, food.picture, ServerValue.TIMESTAMP, resKey,resName,food.rate)
                         val result = favFoodRef.push().setValue(favFood).isCanceled
                         if (result) {
                             favFoodReady.value = Pair(false, false)
@@ -167,12 +168,33 @@ class FoodDetailViewModel : ViewModel() {
         this.amount = amount
         if (food != null) {
             this.food = food
-            ready.value = true
+            getNameRes()
         } else {
             getOneFood()
+            getNameRes()
         }
 
 
+    }
+
+    private fun getNameRes() {
+        val ref = mRootRef.child("restaurant/$resKey/restaurantName")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                Log.d("resName", "${p0.value}")
+                if (p0.value != null) {
+                    resName = p0.value.toString()
+                    ready.value = true
+                }
+
+
+            }
+
+        })
     }
 
     private fun getOneFood() {
