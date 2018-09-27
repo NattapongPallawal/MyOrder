@@ -1,9 +1,12 @@
 package com.example.natta.myorder.view.scanqrcode
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -28,7 +31,9 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
     private var mNfcAdapter: NfcAdapter? = null
     private val MIME_TEXT_PLAIN = "text/plain"
     private val TAG = "CheckNFC"
+    private var editor: SharedPreferences.Editor? = null
 
+    @SuppressLint("CommitPrefEdits")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_qrcode)
@@ -61,6 +66,8 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
                         }
                 ).onSameThread()
                 .check()
+        editor = this.getSharedPreferences("MY_ORDER", Context.MODE_PRIVATE).edit()
+
         showFragment()
 
 
@@ -96,9 +103,13 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
     }
 
     override fun onResult(result: String) {
-        Toast.makeText(applicationContext, result, Toast.LENGTH_LONG).show()
+        val r = result.split(",")
+        Toast.makeText(applicationContext, "${r.first()} ${r.last()}", Toast.LENGTH_LONG).show()
         val i = Intent(this, FoodActivity::class.java)
-        i.putExtra("resKey", result)
+        i.putExtra("resKey", r.first())
+        editor!!.putString("TABLE", r.last())
+        editor!!.commit()
+
         startActivity(i)
     }
 

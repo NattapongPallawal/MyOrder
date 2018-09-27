@@ -12,6 +12,7 @@ class Order constructor(var orderNumber: Int? = null,
                         var fromRestaurant: Boolean? = null,
                         var finish: Boolean? = null,
                         var totalMenu: Int? = null,
-                        var customerID: String? = null
+                        var customerID: String? = null,
+                        var table: String? = null
 ) {
 }

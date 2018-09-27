@@ -52,6 +52,14 @@ class PaymentActivity : AppCompatActivity() {
         list_payment.setItemViewCacheSize(20)
         if(fromRes == 0){
             cash_PM.visibility = View.INVISIBLE
+            textView_table_PM.visibility = View.GONE
+            table_PM.visibility = View.GONE
+        } else if (fromRes == 1) {
+            val table = sp!!.getString("TABLE", "NotFound")
+            textView_table_PM.visibility = View.VISIBLE
+            table_PM.visibility = View.VISIBLE
+            table_PM.text = table.toString()
+            model.setTable(table)
         }
         model.getRestaurant(resKey).observe(this, Observer {
             if (it != null) {
@@ -62,15 +70,6 @@ class PaymentActivity : AppCompatActivity() {
 
         model.getMyOrder(resKey).observe(this, Observer {
             if (it != null) {
-                if (it.isNotEmpty()) {
-                    if (it.first().second.table == null) {
-                        textView_table_PM.visibility = View.GONE
-                        table_PM.visibility = View.GONE
-                    } else {
-                        textView_table_PM.visibility = View.VISIBLE
-                        table_PM.visibility = View.VISIBLE
-                    }
-                }
 
                 orderAmount_PM.text = it.size.toString() + " รายการ"
                 total_PM.text = model.getTotal().toString() + " ฿"

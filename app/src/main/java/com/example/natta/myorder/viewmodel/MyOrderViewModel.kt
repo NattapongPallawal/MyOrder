@@ -13,6 +13,7 @@ class MyOrderViewModel : ViewModel() {
     private var mAuth = FirebaseAuth.getInstance()
     private var myOrder = MutableLiveData<ArrayList<Pair<String, Select>>>()
     private var resKey: String = ""
+
     private val listenerOrder = object : ValueEventListener {
         override fun onDataChange(p0: DataSnapshot) {
             val temp = arrayListOf<Pair<String, Select>>()

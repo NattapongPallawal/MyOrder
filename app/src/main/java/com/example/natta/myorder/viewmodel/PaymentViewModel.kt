@@ -23,6 +23,7 @@ class PaymentViewModel : ViewModel() {
     private var queue: Int = 0
     private var restaurantID: String = ""
     private var fromRestaurant: Int = -1
+    private var table: String? = null
 
     init {
         orderNumber.value = -1
@@ -67,7 +68,8 @@ class PaymentViewModel : ViewModel() {
                     fromRestaurant == 1,
                     false,
                     myOrder.value!!.size,
-                    mAuth.currentUser!!.uid
+                    mAuth.currentUser!!.uid,
+                    table
             ))
 
             { p0, p1 ->
@@ -81,7 +83,8 @@ class PaymentViewModel : ViewModel() {
                                     it.second.price,
                                     it.second.foodName,
                                     it.second.foodTypeName,
-                                    it.second.foodSizeName
+                                    it.second.foodSizeName,
+                                    it.second.finish
                             )) { _, _ ->
                                 val updateQueue = hashMapOf("queue" to queue + 1, "date" to ServerValue.TIMESTAMP)
                                 orderNumberRef.setValue(updateQueue)
@@ -176,5 +179,9 @@ class PaymentViewModel : ViewModel() {
             val orderRef = mRootRef.child("temp/cart/${mAuth.currentUser!!.uid}/select/${it.first}")
             orderRef.removeValue()
         }
+    }
+
+    fun setTable(table: String?) {
+        this.table = table
     }
 }

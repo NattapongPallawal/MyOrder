@@ -255,7 +255,9 @@ class FoodDetailViewModel : ViewModel() {
             override fun onDataChange(p0: DataSnapshot) {
                 val foodSize = arrayListOf<Pair<String, String>>()
                 p0.children.forEach {
-                    foodSize.add(Pair(it.key.toString(), it.value.toString()))
+                    val v = it.child("size").getValue(String::class.java)!!
+                    foodSize.add(Pair(it.key.toString(),v))
+                    Log.d("foodSize",it.child("size").getValue(String::class.java))
                 }
                 foodSize.forEach {
                     Log.d("foodSize", it.first)

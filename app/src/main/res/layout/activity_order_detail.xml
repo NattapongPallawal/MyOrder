@@ -73,8 +73,8 @@
                     android:layout_marginTop="8dp"
                     android:text="วันที่สั่ง :"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView13"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                    app:layout_constraintStart_toStartOf="@+id/table_ODT"
+                    app:layout_constraintTop_toBottomOf="@+id/table_ODT" />
 
                 <TextView
                     android:id="@+id/orderNum_OD"
@@ -105,6 +105,26 @@
                     app:layout_constraintBottom_toBottomOf="@+id/textView14"
                     app:layout_constraintStart_toEndOf="@+id/textView14"
                     app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+                <TextView
+                    android:id="@+id/table_ODT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="โต๊ะ :"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+                <TextView
+                    android:id="@+id/table_OD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="TextView"
+                    app:layout_constraintBottom_toBottomOf="@+id/table_ODT"
+                    app:layout_constraintStart_toEndOf="@+id/table_ODT"
+                    app:layout_constraintTop_toTopOf="@+id/table_ODT" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 

@@ -6,11 +6,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.viewmodel.OrderDetailViewModel
 import com.rakshakhegde.stepperindicator.StepperIndicator
 import kotlinx.android.synthetic.main.activity_order_detail.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class OrderDetailActivity : AppCompatActivity() {
 
@@ -32,7 +35,15 @@ class OrderDetailActivity : AppCompatActivity() {
                 status_OD.text = it.status.toString()
                 orderNum_OD.text = "#"+it.orderNumber.toString()
                 resName_OD.text = it.restaurantName.toString()
-                date_OD.text = it.date.toString()
+                date_OD.text = convertDate(it.date as Long)
+                if (it.table != null) {
+                    table_OD.visibility = View.VISIBLE
+                    table_OD.text = it.table
+                    table_ODT.visibility = View.VISIBLE
+                } else {
+                    table_OD.visibility = View.GONE
+                    table_ODT.visibility = View.GONE
+                }
             }
 
         })
@@ -60,6 +71,31 @@ class OrderDetailActivity : AppCompatActivity() {
 //        recyclerView_status.setHasFixedSize(true)
 
 
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun convertDate(t: Long): String {
+//        SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString()
+        val d = Date(t)
+        val orderDate = SimpleDateFormat("ddMMyyyy").format(d).toLong()
+        val today = SimpleDateFormat("ddMMyyyy").format(Date()).toLong()
+        val fmD = SimpleDateFormat("dd")
+        val fmM = SimpleDateFormat("MM")
+        val fmY = SimpleDateFormat("yyyy")
+        val fmT = SimpleDateFormat("HH:mm")
+
+        val day = fmD.format(d)
+        val month = fmM.format(d)
+        val year = (fmY.format(d).toInt() + 543).toString()
+        val time = fmT.format(d)
+
+
+
+        return if (orderDate == today) {
+            "วันนี้ เวลา $time"
+        } else {
+            "วันที่ $day/$month/$year เวลา $time"
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
