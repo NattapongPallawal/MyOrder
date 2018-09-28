@@ -44,6 +44,7 @@ class OrderDetailActivity : AppCompatActivity() {
                     table_OD.visibility = View.GONE
                     table_ODT.visibility = View.GONE
                 }
+                total_OD.text = it.total.toString() + " บาท"
             }
 
         })
@@ -58,6 +59,14 @@ class OrderDetailActivity : AppCompatActivity() {
 //        indicator.setLabels(a)
         model.getMenu().observe(this, Observer {
             if (it != null){
+                val orderAmount = it.size
+                var finish = 0
+                it.forEach {orders ->
+                    if (orders.second.finish!!){
+                        finish += 1
+                    }
+                }
+                finish_OD.text = "$finish จาก $orderAmount รายการ"
                 adapterFood.setData(it)
             }
 

@@ -1,10 +1,12 @@
 package com.example.natta.myorder.view.orderdetail
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.OrderMenu
 import kotlinx.android.synthetic.main.list_payment.view.*
@@ -20,9 +22,23 @@ class FoodAdapter : RecyclerView.Adapter<FoodAdapter.FoodOrderDetailViewHolder>(
         return menu.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FoodOrderDetailViewHolder, position: Int) {
+        holder.amount.text = menu[position].second.amount.toString()
+        holder.foodName.text =
+                "${menu[position].second.foodName.toString()} " +
+                "${if (menu[position].second.foodTypeName != null) menu[position].second.foodTypeName.toString() else ""} " +
+                menu[position].second.foodSizeName.toString()
+        holder.price.text = menu[position].second.price.toString()
+        if (menu[position].second.finish!!) {
+            holder.done.visibility = View.VISIBLE
+            holder.done.playAnimation()
+        } else {
+            holder.done.visibility = View.GONE
+        }
 
     }
+
 
     fun setData(menu: ArrayList<Pair<String, OrderMenu>>) {
         this.menu = menu
@@ -33,5 +49,6 @@ class FoodAdapter : RecyclerView.Adapter<FoodAdapter.FoodOrderDetailViewHolder>(
         var amount = view.amount_PML as TextView
         var foodName = view.foodName_PML as TextView
         var price = view.price_PML as TextView
+        var done = view.foodDone_OD as LottieAnimationView
     }
 }

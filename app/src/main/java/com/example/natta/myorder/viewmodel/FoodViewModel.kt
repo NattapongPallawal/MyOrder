@@ -103,7 +103,7 @@ class FoodViewModel : ViewModel() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val foodSize: Pair<String, String> = Pair(p0.children.first().key.toString(), p0.children.first().value.toString())
+                val foodSize: Pair<String, String> = Pair(p0.children.first().key.toString(), p0.children.first().child("size").value.toString())
                 mFoodSize.value = foodSize
                 ready.value!![1] = true
                 //ready.

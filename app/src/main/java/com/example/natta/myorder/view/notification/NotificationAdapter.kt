@@ -1,20 +1,17 @@
 package com.example.natta.myorder.view.notification
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Notification
-import com.example.natta.myorder.data.Order
-import com.example.natta.myorder.data.Restaurant
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.list_notification.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
     private var noti = listOf<Notification>()
@@ -30,35 +27,41 @@ class NotificationAdapter : RecyclerView.Adapter<NotificationAdapter.Notificatio
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-//       val orderListener = object : ValueEventListener{
-//           override fun onCancelled(p0: DatabaseError) {
-//
-//           }
-//
-//           override fun onDataChange(p0: DataSnapshot) {
-//               holder.orderNum.text = p0.getValue(Order::class.java)!!.orderNumber.toString()
-//           }
-//
-//       }
-//        val resListener = object : ValueEventListener{
-//            override fun onCancelled(p0: DatabaseError) {
-//
-//            }
-//
-//            override fun onDataChange(p0: DataSnapshot) {
-//                holder.res.text = p0.getValue(Restaurant::class.java)!!.restaurantName.toString()
-//            }
-//
-//        }
-//        val mResRef = mRootRef.child("restaurant").child(noti[position].restaurant)
-//        val orderRef = mRootRef.child("order").child("cus-test1").child(noti[position].order)
-//
-//        mResRef.addValueEventListener(resListener)
-//        orderRef.addValueEventListener(orderListener)
-//        holder.message.text = noti[position].message
-//        holder.time.text = noti[position].date
-//        holder.date.text = noti[position].date
 
+        holder.message.text = noti[position].message.toString()
+        holder.time.text = convertDate(noti[position].date as Long ,false)
+        holder.date.text = convertDate(noti[position].date as Long ,true)
+        holder.res.text = noti[position].restaurantName.toString()
+        holder.orderNum.text = noti[position].orderNumber.toString()
+
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun convertDate(t: Long, date: Boolean): String {
+//        SimpleDateFormat("ddMMyyyy HH:mm:ss").format(Date(1536671117304)).toString()
+        val d = Date(t)
+        val orderDate = SimpleDateFormat("ddMMyyyy").format(d).toLong()
+        val today = SimpleDateFormat("ddMMyyyy").format(Date()).toLong()
+        val fmD = SimpleDateFormat("dd")
+        val fmM = SimpleDateFormat("MM")
+        val fmY = SimpleDateFormat("yyyy")
+        val fmT = SimpleDateFormat("HH:mm")
+
+        val day = fmD.format(d)
+        val month = fmM.format(d)
+        val year = (fmY.format(d).toInt() + 543).toString()
+        val time = fmT.format(d)
+
+        return if (date) {
+            if (orderDate == today) {
+                "วันนี้"
+            } else {
+                "$day/$month/$year"
+            }
+        } else {
+            "$time น."
+
+        }
     }
 
     fun setData(noti: List<Notification>) {

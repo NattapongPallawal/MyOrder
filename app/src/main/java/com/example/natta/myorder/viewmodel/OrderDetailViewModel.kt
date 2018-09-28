@@ -49,7 +49,7 @@ class OrderDetailViewModel : ViewModel() {
 
     private fun getOrderMenu(key: String) {
         val ref = mRootRef.child("order-menu/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val orderMenuTemp = arrayListOf<Pair<String, OrderMenu>>()
                 p0.children.forEach {
