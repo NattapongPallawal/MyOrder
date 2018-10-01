@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.PorterDuff
+import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -17,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.data.Customer
 import com.example.natta.myorder.view.aboutapplication.AboutApplicationActivity
@@ -41,7 +43,9 @@ import uk.co.markormesher.android_fab.SpeedDialMenuItem
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var editor: SharedPreferences.Editor? = null
     private val FROM_RESTAURANT = "FROM_RESTAURANT"
-
+    private var latitude = 0.0
+    private var longitude = 0.0
+    private var bundle = Bundle()
     private val tab = object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -95,6 +99,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        getLocation()
         setSupportActionBar(toolbar)
         model = ViewModelProviders.of(this).get(MainViewModel::class.java)
         val toggle = ActionBarDrawerToggle(
@@ -130,7 +135,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun initMainTabPager() {
-        val tabPager = MainTabPager(supportFragmentManager)
+        val tabPager = MainTabPager(supportFragmentManager,bundle)
         viewPager.adapter = tabPager
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(0)!!.icon = resources.getDrawable(R.drawable.ic_home)
@@ -210,6 +215,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
             getCustomer()
+        }
+
+    }
+    @SuppressLint("MissingPermission")
+    fun getLocation() {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        val location1 = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val location2 = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+
+        when {
+            location != null -> {
+                latitude = location.latitude
+                longitude = location.longitude
+                bundle.putDouble("latitude",latitude)
+                bundle.putDouble("longitude",longitude)
+                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+
+
+            }
+            location1 != null -> {
+                latitude = location1.latitude
+                longitude = location1.longitude
+                bundle.putDouble("latitude",latitude)
+                bundle.putDouble("longitude",longitude)
+                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+
+
+            }
+            location2 != null -> {
+                latitude = location2.latitude
+                longitude = location2.longitude
+                bundle.putDouble("latitude",latitude)
+                bundle.putDouble("longitude",longitude)
+                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+
+            }
+            else -> Toast.makeText(this, "Unble to Trace your location", Toast.LENGTH_SHORT).show()
         }
 
     }

@@ -84,7 +84,8 @@ class PaymentViewModel : ViewModel() {
                                     it.second.foodName,
                                     it.second.foodTypeName,
                                     it.second.foodSizeName,
-                                    it.second.finish
+                                    it.second.finish,
+                                    it.second.picture
                             )) { _, _ ->
                                 val updateQueue = hashMapOf("queue" to queue + 1, "date" to ServerValue.TIMESTAMP)
                                 orderNumberRef.setValue(updateQueue)

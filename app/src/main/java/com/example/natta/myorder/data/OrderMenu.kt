@@ -8,5 +8,7 @@ class OrderMenu constructor(var foodSize: String? = null,
                             var foodName: String? = null,
                             var foodTypeName: String? = null,
                             var foodSizeName: String? = null,
-                            var finish: Boolean? = null) {
+                            var finish: Boolean? = null,
+                            val picture: String? = null) {
+
 }
