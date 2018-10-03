@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
 class PaymentActivity : AppCompatActivity() {
     private var sp: SharedPreferences? = null
     private val FROM_RESTAURANT = "FROM_RESTAURANT"
-
+    private var total = 0.0
     private var model = PaymentViewModel()
     private var resKey = ""
     private var restaurant = Restaurant()
@@ -112,6 +112,7 @@ class PaymentActivity : AppCompatActivity() {
 
                 orderAmount_PM.text = it.size.toString() + " รายการ"
                 total_PM.text = model.getTotal().toString() + " ฿"
+                total = model.getTotal()
 
                 adapter.setData(it)
             }
@@ -120,8 +121,8 @@ class PaymentActivity : AppCompatActivity() {
         btn_payment_PM.setOnClickListener { it ->
             val i = Intent(applicationContext, MainActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            val text = restaurant.promtPayID
-            val textP = "พร้อมเพย์ : $text"
+            val text = renderStrQR(restaurant.promtPayID!!, total)
+            val textP = "พร้อมเพย์ : ${restaurant.promtPayID}"
             val resName = restaurant.restaurantName
             //startActivity(i)
             if (selectPromtPay) {
@@ -215,5 +216,34 @@ class PaymentActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    private fun renderStrQR(promtPayID: String, total: Double): String {
+        var pp_acc_id: String = ""
+        val pp_amount: String = if (total != 0.0) String.format("54%02d%s", total.toString().length, total) else ""
+        var pp_chksum: String = ""
+
+        pp_acc_id = when {
+            promtPayID.length == 15 -> // truemoney e-wallet
+                "0315$promtPayID"
+            promtPayID.length == 13 -> // card-id
+                "0213$promtPayID"
+            promtPayID.length == 10 -> // tel-no
+                "01130066" + promtPayID.substring(1)
+            else -> { // invalid acc_id
+                ""
+            }
+        }
+
+        val field_29: String = "0016A000000677010111$pp_acc_id"
+        var pp_str: String = "000201010211" +
+                "29" + field_29.length + field_29 +
+                "5303764" +
+                pp_amount +
+                "5802TH" +
+                "6304"
+        pp_chksum = CRC16.checksum(pp_str)
+        pp_str += pp_chksum
+        return pp_str
     }
 }
