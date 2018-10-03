@@ -1,5 +1,6 @@
 package com.example.natta.myorder.view.payment
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.arch.lifecycle.Observer
@@ -20,6 +21,13 @@ import com.example.natta.myorder.view.MainActivity
 import com.example.natta.myorder.viewmodel.PaymentViewModel
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.custom_dialog_payment.*
 import kotlin.math.roundToInt
@@ -39,6 +47,37 @@ class PaymentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_payment)
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(
+                        object : PermissionListener {
+                            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                                if (response != null) {
+//                                    Toast.makeText(applicationContext, response.permissionName, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+                                token?.continuePermissionRequest()
+                            }
+
+                            override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                                val dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
+                                        .withContext(this@PaymentActivity)
+                                        .withTitle("การเข้าถึงหน่วยความจำ")
+                                        .withMessage("ต้องการเข้าถึงหน่วยความจำเพื่อบันทึกรูปภาพ")
+                                        .withButtonText("Ok")
+                                        .withIcon(R.mipmap.ic_launcher)
+                                        .build()
+                                dialogPermissionListener.onPermissionDenied(response)
+//                                finish()
+
+                            }
+                        }
+                ).onSameThread()
+                .check()
+
         resKey = intent.getStringExtra("resKey")
         model = ViewModelProviders.of(this).get(PaymentViewModel::class.java)
         sp = getSharedPreferences("MY_ORDER", 0)

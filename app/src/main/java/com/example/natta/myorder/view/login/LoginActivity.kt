@@ -1,12 +1,12 @@
 package com.example.natta.myorder.view.login
 
+import android.Manifest
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.natta.myorder.R
@@ -19,6 +19,13 @@ import com.example.natta.myorder.viewmodel.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.activity_login.*
 
 @Suppress("DEPRECATION")
@@ -27,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
     private var mAuthListener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
         if (user != null) {
-            successAnimation()
+            successAnimation(Manifest.permission.CAMERA)
             Delay(success_ani.duration).execute()
         }
     }
@@ -36,6 +43,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        premission(Manifest.permission.ACCESS_FINE_LOCATION)
+//        premission(Manifest.permission.CAMERA)
         val model = ViewModelProviders.of(this).get(LoginViewModel::class.java)
         button_signin.setOnClickListener {
             val email = login_email.text.toString().trim()
@@ -69,8 +78,42 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
+    private fun premission(p: String) {
+//        Dexter.withActivity(this)
+//                .withPermission(Manifest.permission_group.CAMERA, Manifest.permission_group.LOCATION)
+//                .withListener()
 
-    private fun successAnimation() {
+        Dexter.withActivity(this)
+                .withPermission(p)
+                .withListener(
+                        object : PermissionListener {
+                            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                                if (response != null) {
+//                                    Toast.makeText(applicationContext, response.permissionName, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+                                token?.continuePermissionRequest()
+                            }
+
+                            override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                                val dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
+                                        .withContext(this@LoginActivity)
+                                        .withTitle("การเข้าถึงที่อยู่ปัจจุบัน")
+                                        .withMessage("เราต้องการที่อยู่ปัจจุบันของคุณ")
+                                        .withButtonText("Ok")
+                                        .withIcon(R.mipmap.ic_launcher)
+                                        .build()
+                                dialogPermissionListener.onPermissionDenied(response)
+//                                finish()
+
+                            }
+                        }
+                )
+                .check()
+    }
+    private fun successAnimation(camera: String) {
         login_con.visibility = View.GONE
         loading_ani.visibility = View.GONE
         success_ani.visibility = View.VISIBLE

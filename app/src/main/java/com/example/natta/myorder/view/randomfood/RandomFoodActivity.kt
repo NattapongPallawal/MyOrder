@@ -95,20 +95,20 @@ class RandomFoodActivity : AppCompatActivity() {
             location != null -> {
                 latitude = location.latitude
                 longitude = location.longitude
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
                 foundCurrentLocation.value = true
             }
             location1 != null -> {
                 latitude = location1.latitude
                 longitude = location1.longitude
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
                 foundCurrentLocation.value = true
 
             }
             location2 != null -> {
                 latitude = location2.latitude
                 longitude = location2.longitude
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
                 foundCurrentLocation.value = true
 
             }

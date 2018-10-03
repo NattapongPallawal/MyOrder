@@ -9,12 +9,8 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
-import android.nfc.Tag
-import android.nfc.tech.Ndef
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.Toast
 import com.example.natta.myorder.R
 import com.example.natta.myorder.view.food.FoodActivity
@@ -43,7 +39,7 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
                         object : PermissionListener {
                             override fun onPermissionGranted(response: PermissionGrantedResponse?) {
                                 if (response != null) {
-                                    Toast.makeText(applicationContext, response.permissionName, Toast.LENGTH_SHORT).show()
+//                                    Toast.makeText(applicationContext, response.permissionName, Toast.LENGTH_SHORT).show()
                                 }
                             }
 
@@ -54,8 +50,8 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
                             override fun onPermissionDenied(response: PermissionDeniedResponse?) {
                                 val dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
                                         .withContext(this@ScanQRCodeActivity)
-                                        .withTitle("Camera Permission")
-                                        .withMessage("Camera permission is needed to scan QR code")
+                                        .withTitle("การเข้าถึงกล้องถ่ายรูป")
+                                        .withMessage("ต้องการใช้งานกล้องเพื่อนสแกน QR CODE")
                                         .withButtonText("Ok")
                                         .withIcon(R.mipmap.ic_launcher)
                                         .build()
@@ -68,6 +64,7 @@ class ScanQRCodeActivity : AppCompatActivity(), ScanQRFragment.ScanQRCodeResultL
                 .check()
         editor = this.getSharedPreferences("MY_ORDER", Context.MODE_PRIVATE).edit()
 
+        Toast.makeText(applicationContext,"กดที่กล้องเพื่อ เปิด/ปิด แฟลช",Toast.LENGTH_LONG).show()
         showFragment()
 
 

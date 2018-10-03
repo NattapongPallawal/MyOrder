@@ -1,5 +1,6 @@
 package com.example.natta.myorder.view
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -32,6 +33,13 @@ import com.example.natta.myorder.view.restaurant.RestaurantActivity
 import com.example.natta.myorder.view.scanqrcode.ScanQRCodeActivity
 import com.example.natta.myorder.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -99,6 +107,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         getLocation()
         setSupportActionBar(toolbar)
         model = ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -113,6 +122,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         Delay(1000).execute()
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun updateUI(customer: Customer, email: String) {
@@ -231,7 +241,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 longitude = location.longitude
                 bundle.putDouble("latitude",latitude)
                 bundle.putDouble("longitude",longitude)
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
 
 
             }
@@ -240,7 +250,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 longitude = location1.longitude
                 bundle.putDouble("latitude",latitude)
                 bundle.putDouble("longitude",longitude)
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
 
 
             }
@@ -249,7 +259,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 longitude = location2.longitude
                 bundle.putDouble("latitude",latitude)
                 bundle.putDouble("longitude",longitude)
-                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "$longitude , $latitude", Toast.LENGTH_SHORT).show()
 
             }
             else -> Toast.makeText(this, "Unble to Trace your location", Toast.LENGTH_SHORT).show()

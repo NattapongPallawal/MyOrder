@@ -17,7 +17,17 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 import kotlinx.android.synthetic.main.fragment_scan_qr.view.*
 
-class ScanQRFragment : Fragment() {
+class ScanQRFragment : Fragment(),DecoratedBarcodeView.TorchListener {
+    private var flash : Boolean = true
+    override fun onTorchOn() {
+        Toast.makeText(this.context,"เปิดแฟลชแล้ว",Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTorchOff() {
+        Toast.makeText(this.context,"ปิดแฟลชแล้ว",Toast.LENGTH_LONG).show()
+
+    }
+
     private var barcodeView: DecoratedBarcodeView? = null
     private var r: String? = null
     private lateinit var listener: ScanQRCodeResultListener
@@ -48,9 +58,27 @@ class ScanQRFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_scan_qr, container, false)
         barcodeView = view.decorated_barcode_view as DecoratedBarcodeView
         barcodeView!!.decodeContinuous(callback)
+        barcodeView!!.setTorchListener(this)
+//        barcodeView!!.setTorchOff()
+        view.barcodeView_SQ.setOnClickListener {
+
+            flash = if (flash){
+                barcodeView!!.setTorchOn()
+                !flash
+            }else{
+                barcodeView!!.setTorchOff()
+                !flash
+            }
+
+        }
 //        startActivity(Intent(activity, ShowFoodActivity::class.java))
         return view
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        view.decorated_barcode_view.setTorchOff()
+//    }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
